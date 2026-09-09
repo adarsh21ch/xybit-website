@@ -1,0 +1,25 @@
+<section id="faq" class="py-16 md:py-20">
+  <div class="max-w-[1160px] mx-auto px-5 sm:px-7">
+    <div class="reveal max-w-[60ch] mb-10">
+      <div class="font-mono text-[11.5px] tracking-widest uppercase text-ink-faint mb-2.5">FAQ</div>
+      <h2 class="text-[26px] md:text-[32px]">Before you ask support</h2>
+    </div>
+    <div class="reveal max-w-[760px] flex flex-col">
+      {[
+        { q: "What happens if I fail the evaluation?", a: "You can retry at the standard reset price. The launch discount applies once, to your first purchase.", open: true },
+        { q: "How fast are payouts, really?", a: "5 business days on average once you request one. You can request a payout on your own schedule after the minimum trading-day requirement." },
+        { q: "Is there a time limit on the evaluation?", a: "No. Trade your two to three setups a day for as long as it takes to hit the profit target — there's no clock forcing extra trades." },
+        { q: "Can I use EAs or copy trading?", a: "[Placeholder — state your actual rule here before publishing; this is a common objection buyers check before purchasing.]" },
+        { q: "Which countries can trade with Xybit?", a: "[Placeholder — list eligible countries / any restrictions here.]" },
+      ].map((item) => (
+        <details class="border-b border-border group" open={item.open}>
+          <summary class="list-none cursor-pointer py-5 flex justify-between items-center gap-5 font-display font-semibold text-[16px]">
+            {item.q}
+            <span class="font-mono text-accent text-xl flex-none transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="text-ink-soft text-[14.5px] pb-5 max-w-[62ch]">{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

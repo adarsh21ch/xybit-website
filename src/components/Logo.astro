@@ -1,0 +1,37 @@
+---
+// Shared logo mark: shows the uploaded logo once settings load, falls back
+// to a dashed drop-zone circle until then (and permanently if none is set).
+// Used in the header, bottom nav, footer and admin dashboard so every
+// surface stays in sync from the one uploaded file.
+interface Props {
+  size?: number;
+  class?: string;
+}
+const { size = 32, class: className = "" } = Astro.props;
+---
+
+<span
+  class:list={["xybit-logo inline-flex items-center justify-center rounded-full border border-dashed border-ink-faint/60 flex-none overflow-hidden bg-surface", className]}
+  style={{ width: `${size}px`, height: `${size}px` }}
+  data-logo-slot
+>
+  <span class="text-[9px] font-mono text-ink-faint" data-logo-fallback>logo</span>
+  <img data-logo-img src="" alt="Xybit" class="hidden w-full h-full object-cover" />
+</span>
+
+<script>
+  import { getSettings } from "../lib/settings-client";
+
+  getSettings().then((s) => {
+    if (!s.logo_url) return;
+    document.querySelectorAll<HTMLElement>("[data-logo-slot]").forEach((slot) => {
+      const img = slot.querySelector<HTMLImageElement>("[data-logo-img]");
+      const fallback = slot.querySelector<HTMLElement>("[data-logo-fallback]");
+      if (!img) return;
+      img.src = s.logo_url as string;
+      img.classList.remove("hidden");
+      fallback?.classList.add("hidden");
+      slot.classList.remove("border-dashed", "border-ink-faint/60");
+    });
+  });
+</script>

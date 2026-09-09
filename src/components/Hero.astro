@@ -1,0 +1,74 @@
+---
+---
+
+<header id="top" class="pt-12 md:pt-20 pb-14 md:pb-16">
+  <div class="max-w-[1160px] mx-auto px-5 sm:px-7 grid md:grid-cols-[1.15fr_.85fr] gap-10 md:gap-12 items-center">
+    <div class="reveal">
+      <div class="inline-flex items-center gap-2 font-mono text-[11.5px] tracking-widest uppercase text-accent mb-5">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+        Funded trading accounts
+      </div>
+      <h1 id="hero-headline" class="text-[clamp(34px,7vw,58px)] leading-[1.05] mb-4">
+        40% Off Every Funded Account.
+      </h1>
+      <p id="hero-sub" class="text-[17px] md:text-[17.5px] text-ink-soft max-w-[46ch] mb-7">
+        Two trades a day. Real capital, up to $200K. No hype — just the evaluation, the rules, and the payout.
+      </p>
+      <div class="flex items-center gap-4 flex-wrap">
+        <a href="#accounts" class="inline-flex items-center gap-1.5 bg-accent text-[#0a0500] font-display font-bold text-[14.5px] px-5 py-3.5 rounded-lg hover:bg-[#ff7f4a] hover:-translate-y-px transition-all">
+          <span id="hero-cta-label">Claim 40% Off →</span>
+        </a>
+        <a href="#accounts" class="inline-flex items-center gap-1.5 bg-transparent text-ink border border-border font-display font-bold text-[14.5px] px-5 py-3.5 rounded-lg hover:border-ink-faint transition-all">
+          See account sizes
+        </a>
+      </div>
+      <div id="hero-note" class="mt-4 font-mono text-[12.5px] text-ink-faint">
+        Code <strong class="text-ink-soft">XYBIT40</strong> auto-applied at checkout
+      </div>
+    </div>
+
+    <div class="reveal bg-surface border border-border rounded-2xl p-5 shadow-[0_30px_60px_-30px_rgba(0,0,0,.7)]">
+      <div class="flex items-center gap-2.5 mb-3.5">
+        <span class="w-[34px] h-[34px] rounded-full border border-dashed border-ink-faint/60 flex items-center justify-center text-[9px] font-mono text-ink-faint flex-none">logo</span>
+        <div>
+          <div class="font-bold text-sm flex items-center gap-1">
+            Xybit
+            <span class="w-3.5 h-3.5 rounded-full bg-accent inline-flex items-center justify-center text-[9px] text-[#0a0500]">✓</span>
+          </div>
+          <div class="text-ink-faint text-[13px]">@xybitfunds</div>
+        </div>
+      </div>
+      <p class="text-[15px] mb-4 leading-snug">"You don't get paid for the trades you take. You get paid for the ones you skip."</p>
+      <div class="border-t border-border pt-3.5 flex justify-between items-baseline">
+        <div>
+          <div id="hero-stat" class="font-mono font-bold text-[26px] text-accent">$—</div>
+          <div class="text-[11.5px] text-ink-faint uppercase tracking-wide">Paid out this month</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  import { getSettings } from "../lib/settings-client";
+  import { applyHeadline } from "../lib/settings";
+
+  getSettings().then((s) => {
+    const headline = document.getElementById("hero-headline");
+    if (headline) headline.textContent = applyHeadline(s.headline, s.discount_percent);
+
+    const sub = document.getElementById("hero-sub");
+    if (sub) sub.textContent = s.subheadline;
+
+    const ctaLabel = document.getElementById("hero-cta-label");
+    if (ctaLabel) ctaLabel.textContent = `Claim ${s.discount_percent}% Off →`;
+
+    const note = document.getElementById("hero-note");
+    if (note) {
+      const endBit = s.offer_end_date ? ` · Offer ends <strong class="text-ink-soft">${s.offer_end_date}</strong>` : "";
+      note.innerHTML = `Code <strong class="text-ink-soft">${s.coupon_code}</strong> auto-applied at checkout${endBit}`;
+    }
+    const stat = document.getElementById("hero-stat");
+    if (stat && s.paid_out_total) stat.textContent = s.paid_out_total;
+  });
+</script>

@@ -1,0 +1,89 @@
+---
+import { DEFAULT_SETTINGS } from "../lib/settings";
+
+// Base ("was") prices are structural per account tier; the live discount %
+// from the admin dashboard is what actually moves. Rendered here against
+// the default discount so the price is correct on first paint with no JS
+// — the client script only has to reprice if the admin changed it from
+// the default.
+const plans = [
+  { size: "10K Account", was: 99, split: "80%", featured: false },
+  { size: "25K Account", was: 199, split: "85%", featured: true },
+  { size: "50K Account", was: 349, split: "85%", featured: false },
+  { size: "100K Account", was: 549, split: "90%", featured: false },
+].map((p) => ({
+  ...p,
+  now: Math.round(p.was * (1 - DEFAULT_SETTINGS.discount_percent / 100)),
+}));
+---
+
+<section id="accounts" class="py-16 md:py-20">
+  <div class="max-w-[1160px] mx-auto px-5 sm:px-7">
+    <div class="reveal max-w-[60ch] mb-10">
+      <div class="font-mono text-[11.5px] tracking-widest uppercase text-ink-faint mb-2.5">Accounts</div>
+      <h2 class="text-[26px] md:text-[32px] mb-3">Pick your account size</h2>
+      <p id="plans-sub" class="text-ink-soft text-[15px]">
+        One evaluation model, four sizes. {DEFAULT_SETTINGS.discount_percent}% off applies to every one of them through the launch offer.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+      {plans.map((p) => (
+        <div
+          class:list={[
+            "reveal relative flex flex-col gap-4 rounded-2xl border p-6",
+            p.featured ? "border-accent bg-gradient-to-b from-accent-bg to-surface" : "border-border bg-surface",
+          ]}
+        >
+          {p.featured && (
+            <span class="absolute -top-[11px] left-6 bg-accent text-[#0a0500] font-mono text-[10.5px] font-bold tracking-wide px-2.5 py-0.5 rounded">
+              Most popular
+            </span>
+          )}
+          <div class="font-mono text-[13px] text-ink-faint uppercase tracking-wide">{p.size}</div>
+          <div class="flex items-baseline gap-2">
+            <span class="font-display font-extrabold text-[30px] plan-now" data-was={p.was}>${p.now}</span>
+            <span class="font-mono text-sm text-ink-faint line-through">${p.was}</span>
+          </div>
+          <ul class="flex flex-col gap-2.5 text-[13.5px] text-ink-soft">
+            <li class="flex gap-2"><span class="text-accent">—</span>2 trades / day max</li>
+            <li class="flex gap-2"><span class="text-accent">—</span>8% profit target</li>
+            <li class="flex gap-2"><span class="text-accent">—</span>{p.split} profit split</li>
+            <li class="flex gap-2"><span class="text-accent">—</span>No time limit</li>
+          </ul>
+          <a
+            data-cta-redirect
+            data-external="true"
+            href="#"
+            class:list={[
+              "mt-auto text-center font-display font-bold text-sm px-4 py-3 rounded-lg transition-all",
+              p.featured
+                ? "bg-accent text-[#0a0500] hover:bg-[#ff7f4a]"
+                : "border border-border text-ink hover:border-ink-faint",
+            ]}
+          >
+            Start Evaluation
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { getSettings } from "../lib/settings-client";
+
+  getSettings().then((s) => {
+    document.querySelectorAll<HTMLElement>(".plan-now").forEach((el) => {
+      const was = Number(el.dataset.was);
+      const now = Math.round(was * (1 - s.discount_percent / 100));
+      el.textContent = `$${now}`;
+    });
+    const sub = document.getElementById("plans-sub");
+    if (sub) sub.textContent = `One evaluation model, four sizes. ${s.discount_percent}% off applies to every one of them through the launch offer.`;
+
+    document.querySelectorAll<HTMLAnchorElement>("[data-cta-redirect][data-external='true']").forEach((a) => {
+      a.href = s.redirect_url;
+    });
+  });
+</script>

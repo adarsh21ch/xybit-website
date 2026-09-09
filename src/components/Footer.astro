@@ -1,0 +1,56 @@
+---
+import Logo from "./Logo.astro";
+---
+
+<footer class="border-t border-border pt-12 pb-10 md:pb-9 mb-16 md:mb-0">
+  <div class="max-w-[1160px] mx-auto px-5 sm:px-7">
+    <div class="grid grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr_1fr] gap-8 mb-10">
+      <div>
+        <a href="/" class="flex items-center gap-2.5 mb-3.5">
+          <Logo size={28} />
+          <span class="font-display font-extrabold text-lg">XYBIT</span>
+        </a>
+        <p class="text-ink-faint text-[13.5px] max-w-[32ch]">Real trading education. No hype, just the fundamentals.</p>
+      </div>
+      <div>
+        <h4 class="font-mono text-[11px] tracking-widest uppercase text-ink-faint mb-3.5">Product</h4>
+        <ul class="flex flex-col gap-2.5 text-sm text-ink-soft">
+          <li><a href="#accounts" class="hover:text-ink">Accounts</a></li>
+          <li><a href="#how" class="hover:text-ink">How it works</a></li>
+          <li><a href="#payouts" class="hover:text-ink">Payouts</a></li>
+          <li><a href="/" class="hover:text-ink">Affiliates</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-mono text-[11px] tracking-widest uppercase text-ink-faint mb-3.5">Company</h4>
+        <ul class="flex flex-col gap-2.5 text-sm text-ink-soft">
+          <li><a href="/" class="hover:text-ink">Rules</a></li>
+          <li><a href="#faq" class="hover:text-ink">FAQ</a></li>
+          <li><a href="/" class="hover:text-ink">Blog</a></li>
+          <li><a href="/" class="hover:text-ink">Support</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-mono text-[11px] tracking-widest uppercase text-ink-faint mb-3.5">Legal</h4>
+        <ul class="flex flex-col gap-2.5 text-sm text-ink-soft">
+          <li><a href="/" class="hover:text-ink">Terms</a></li>
+          <li><a href="/" class="hover:text-ink">Risk Disclosure</a></li>
+          <li><a href="/" class="hover:text-ink">Refund Policy</a></li>
+          <li><a href="/" class="hover:text-ink">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-border pt-6 flex flex-wrap justify-between items-start gap-5">
+      <p class="text-[12px] text-ink-faint max-w-[56ch] leading-relaxed">
+        Simulated capital. Trading involves risk. Past performance is not indicative of future
+        results. Xybit accounts are evaluated on simulated funds; profit splits are paid from
+        Xybit's own capital upon successful evaluation.
+      </p>
+      <div class="flex gap-3">
+        <a href="/" class="w-8 h-8 rounded-full border border-border flex items-center justify-center text-xs text-ink-soft hover:border-accent hover:text-accent" aria-label="X">𝕏</a>
+        <a href="/" class="w-8 h-8 rounded-full border border-border flex items-center justify-center text-xs text-ink-soft hover:border-accent hover:text-accent" aria-label="Instagram">IG</a>
+        <a href="/" class="w-8 h-8 rounded-full border border-border flex items-center justify-center text-xs text-ink-soft hover:border-accent hover:text-accent" aria-label="Discord">D</a>
+      </div>
+    </div>
+  </div>
+</footer>

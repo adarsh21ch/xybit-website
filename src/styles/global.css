@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #050505;
+  color: theme("colors.ink");
+  font-family: theme("fontFamily.body");
+}
+
+::selection {
+  background: theme("colors.accent.DEFAULT");
+  color: #0a0500;
+}
+
+h1, h2, h3 {
+  font-family: theme("fontFamily.display");
+  font-weight: 700;
+  text-wrap: balance;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- Scroll reveal ---------- */
+/* Elements start visible (no JS = still readable) then are hidden by JS
+   right before the observer takes over, so there's never a flash of
+   invisible content if JS is slow or blocked. */
+.reveal {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.js-reveal-ready .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.js-reveal-ready .reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js-reveal-ready .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---------- Bottom nav safe-area (iOS home indicator) ---------- */
+.pb-safe {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}

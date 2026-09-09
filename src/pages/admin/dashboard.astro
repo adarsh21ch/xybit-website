@@ -1,0 +1,253 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Dashboard — Xybit Admin">
+  <div class="min-h-screen pb-24">
+    <nav class="sticky top-0 z-30 bg-[#050505]/90 backdrop-blur-md border-b border-border">
+      <div class="max-w-[820px] mx-auto px-5 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span id="dash-logo" class="w-8 h-8 rounded-full border border-dashed border-ink-faint/60 flex items-center justify-center text-[9px] font-mono text-ink-faint overflow-hidden">logo</span>
+          <span class="font-display font-extrabold text-lg">XYBIT</span>
+          <span class="font-mono text-[11px] text-ink-faint border border-border rounded px-1.5 py-0.5">admin</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <a href="/" target="_blank" class="text-[13px] text-ink-soft hover:text-ink">View site ↗</a>
+          <button id="logout-btn" class="text-[13px] text-ink-faint hover:text-ink">Log out</button>
+        </div>
+      </div>
+    </nav>
+
+    <main id="dash-main" class="max-w-[820px] mx-auto px-5 pt-10 hidden">
+      <h1 class="text-2xl font-display font-bold mb-1">Site settings</h1>
+      <p class="text-ink-soft text-sm mb-8">Changes apply instantly on the live site — no redeploy needed.</p>
+
+      <form id="settings-form" class="flex flex-col gap-8">
+        <!-- Branding -->
+        <section class="bg-surface border border-border rounded-2xl p-5">
+          <h2 class="font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-4">Branding</h2>
+          <div class="flex items-center gap-5">
+            <span id="logo-preview" class="w-16 h-16 rounded-full border border-dashed border-ink-faint/60 flex items-center justify-center text-[10px] font-mono text-ink-faint overflow-hidden flex-none">
+              no logo
+            </span>
+            <div class="flex-1">
+              <label class="inline-block bg-surface-2 border border-border rounded-lg px-4 py-2 text-sm cursor-pointer hover:border-ink-faint">
+                Upload logo
+                <input id="logo-input" type="file" accept="image/png,image/svg+xml,image/jpeg,image/webp" class="hidden" />
+              </label>
+              <p class="text-[12px] text-ink-faint mt-2">Square PNG or SVG works best. Appears in the header, mobile nav, browser tab and footer automatically.</p>
+              <p id="logo-status" class="text-[12px] mt-1"></p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Offer -->
+        <section class="bg-surface border border-border rounded-2xl p-5">
+          <h2 class="font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-4">Offer</h2>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="discount_percent">Discount %</label>
+              <div class="relative">
+                <input id="discount_percent" type="number" min="0" max="95" required
+                  class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-2xl font-display font-bold text-accent focus:outline-none focus:border-accent" />
+                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-ink-faint font-mono">%</span>
+              </div>
+              <p class="text-[12px] text-ink-faint mt-1.5">Shown big in the hero, account cards and final CTA.</p>
+            </div>
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="coupon_code">Coupon code</label>
+              <input id="coupon_code" type="text" required
+                class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-lg font-mono font-bold tracking-wide uppercase focus:outline-none focus:border-accent" />
+            </div>
+          </div>
+          <div class="mt-4">
+            <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="offer_end_date">Offer ends</label>
+            <input id="offer_end_date" type="date"
+              class="w-full sm:w-auto bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-accent" />
+            <p class="text-[12px] text-ink-faint mt-1.5">Leave blank to hide the "offer ends" line entirely.</p>
+          </div>
+        </section>
+
+        <!-- Redirect -->
+        <section class="bg-surface border border-border rounded-2xl p-5">
+          <h2 class="font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-4">Signup redirect</h2>
+          <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="redirect_url">Where "Get Funded" buttons send visitors</label>
+          <input id="redirect_url" type="url" required placeholder="https://platform.xybitfunds.com/checkout"
+            class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-accent" />
+          <p class="text-[12px] text-ink-faint mt-1.5">Your account-purchase / trader platform URL. This page is marketing-only and doesn't process payment itself.</p>
+        </section>
+
+        <!-- Copy -->
+        <section class="bg-surface border border-border rounded-2xl p-5">
+          <h2 class="font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-4">Homepage copy</h2>
+          <div class="flex flex-col gap-4">
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="headline">Hero headline</label>
+              <input id="headline" type="text"
+                class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-accent" />
+              <p class="text-[12px] text-ink-faint mt-1.5">Use <code class="text-ink-soft">{"{discount}"}</code> where the number should go — it's replaced automatically.</p>
+            </div>
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="subheadline">Hero subheadline</label>
+              <textarea id="subheadline" rows="2"
+                class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-accent"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- Trust stats -->
+        <section class="bg-surface border border-border rounded-2xl p-5">
+          <h2 class="font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-4">Trust bar stats</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="paid_out_total">Paid to traders</label>
+              <input id="paid_out_total" type="text" placeholder="$2.1M+"
+                class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm font-mono focus:outline-none focus:border-accent" />
+            </div>
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="funded_accounts">Funded accounts</label>
+              <input id="funded_accounts" type="text" placeholder="6,400+"
+                class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm font-mono focus:outline-none focus:border-accent" />
+            </div>
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="avg_payout_days">Avg. payout time</label>
+              <input id="avg_payout_days" type="text" placeholder="5 days"
+                class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm font-mono focus:outline-none focus:border-accent" />
+            </div>
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="max_profit_split">Max profit split</label>
+              <input id="max_profit_split" type="text" placeholder="90%"
+                class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm font-mono focus:outline-none focus:border-accent" />
+            </div>
+          </div>
+        </section>
+      </form>
+    </main>
+
+    <div id="dash-loading" class="max-w-[820px] mx-auto px-5 pt-10 text-ink-faint text-sm">Loading…</div>
+  </div>
+
+  <!-- Sticky save bar -->
+  <div id="save-bar" class="hidden fixed bottom-0 inset-x-0 z-40 bg-[#0a0a0a]/95 backdrop-blur-md border-t border-border">
+    <div class="max-w-[820px] mx-auto px-5 py-3.5 flex items-center justify-between gap-4">
+      <span id="save-status" class="text-[13px] text-ink-faint"></span>
+      <button id="save-btn" class="bg-accent text-[#0a0500] font-display font-bold text-sm px-6 py-2.5 rounded-lg hover:bg-[#ff7f4a] transition-colors disabled:opacity-60">
+        Save changes
+      </button>
+    </div>
+  </div>
+
+  <script>
+    import { supabase, SUPABASE_CONFIGURED } from "../../lib/supabase";
+    import { fetchSettings, saveSettings, type SiteSettings } from "../../lib/settings";
+
+    const ids: (keyof SiteSettings)[] = [
+      "discount_percent", "coupon_code", "offer_end_date", "redirect_url",
+      "headline", "subheadline", "paid_out_total", "funded_accounts",
+      "avg_payout_days", "max_profit_split",
+    ];
+
+    let currentLogoUrl: string | null = null;
+
+    function fillForm(s: SiteSettings) {
+      for (const id of ids) {
+        const el = document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | null;
+        if (el) el.value = String(s[id] ?? "");
+      }
+      currentLogoUrl = s.logo_url;
+      const preview = document.getElementById("logo-preview") as HTMLElement;
+      const dashLogo = document.getElementById("dash-logo") as HTMLElement;
+      if (s.logo_url) {
+        preview.innerHTML = `<img src="${s.logo_url}" class="w-full h-full object-cover" alt="" />`;
+        dashLogo.innerHTML = `<img src="${s.logo_url}" class="w-full h-full object-cover" alt="" />`;
+      }
+    }
+
+    async function init() {
+      if (!SUPABASE_CONFIGURED) {
+        document.getElementById("dash-loading")!.textContent =
+          "Supabase isn't connected yet. Add PUBLIC_SUPABASE_URL / PUBLIC_SUPABASE_ANON_KEY, redeploy, then this dashboard will work.";
+        return;
+      }
+
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        window.location.href = "/admin/login";
+        return;
+      }
+
+      const settings = await fetchSettings();
+      fillForm(settings);
+
+      document.getElementById("dash-loading")!.classList.add("hidden");
+      document.getElementById("dash-main")!.classList.remove("hidden");
+      document.getElementById("save-bar")!.classList.remove("hidden");
+    }
+
+    document.getElementById("logout-btn")?.addEventListener("click", async () => {
+      await supabase.auth.signOut();
+      window.location.href = "/admin/login";
+    });
+
+    document.getElementById("logo-input")?.addEventListener("change", async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+      const status = document.getElementById("logo-status")!;
+      status.textContent = "Uploading…";
+      status.className = "text-[12px] mt-1 text-ink-faint";
+
+      const path = `logo-${Date.now()}.${file.name.split(".").pop()}`;
+      const { error: uploadError } = await supabase.storage.from("branding").upload(path, file, {
+        upsert: true,
+        cacheControl: "3600",
+      });
+      if (uploadError) {
+        status.textContent = uploadError.message;
+        status.className = "text-[12px] mt-1 text-[#e08165]";
+        return;
+      }
+      const { data: pub } = supabase.storage.from("branding").getPublicUrl(path);
+      currentLogoUrl = pub.publicUrl;
+
+      const { error } = await saveSettings({ logo_url: currentLogoUrl });
+      if (error) {
+        status.textContent = error;
+        status.className = "text-[12px] mt-1 text-[#e08165]";
+        return;
+      }
+
+      const preview = document.getElementById("logo-preview")!;
+      preview.innerHTML = `<img src="${currentLogoUrl}" class="w-full h-full object-cover" alt="" />`;
+      status.textContent = "Logo updated — live everywhere now.";
+      status.className = "text-[12px] mt-1 text-accent";
+    });
+
+    document.getElementById("save-btn")?.addEventListener("click", async () => {
+      const btn = document.getElementById("save-btn") as HTMLButtonElement;
+      const status = document.getElementById("save-status")!;
+      btn.disabled = true;
+      btn.textContent = "Saving…";
+
+      const partial: Record<string, unknown> = {};
+      for (const id of ids) {
+        const el = document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | null;
+        if (!el) continue;
+        partial[id] = id === "discount_percent" ? Number(el.value) : el.value;
+      }
+
+      const { error } = await saveSettings(partial);
+      btn.disabled = false;
+      btn.textContent = "Save changes";
+      if (error) {
+        status.textContent = error;
+        status.className = "text-[13px] text-[#e08165]";
+        return;
+      }
+      status.textContent = "Saved ✓";
+      status.className = "text-[13px] text-accent";
+      setTimeout(() => (status.textContent = ""), 2500);
+    });
+
+    init();
+  </script>
+</Layout>

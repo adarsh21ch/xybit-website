@@ -1,0 +1,34 @@
+<section id="how" class="py-16 md:py-20 border-t border-border">
+  <div class="max-w-[1160px] mx-auto px-5 sm:px-7">
+    <div class="reveal max-w-[60ch] mb-10">
+      <div class="font-mono text-[11.5px] tracking-widest uppercase text-ink-faint mb-2.5">How it works</div>
+      <h2 class="text-[26px] md:text-[32px]">Three steps. That's the whole process.</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="reveal border-t border-border pt-5">
+        <div class="font-mono text-accent text-[13px] font-bold">01</div>
+        <h3 class="text-[19px] my-2.5">Pick your account</h3>
+        <p class="text-ink-soft text-[14.5px]">Choose a size, pay the one-time evaluation fee. Your discount applies automatically — no code to type.</p>
+      </div>
+      <div class="reveal border-t border-border pt-5">
+        <div class="font-mono text-accent text-[13px] font-bold">02</div>
+        <h3 class="text-[19px] my-2.5">Trade the evaluation</h3>
+        <p class="text-ink-soft text-[14.5px]">Hit the profit target, respect the drawdown limit. No time limit — trade two setups a day or two hundred, the rules don't change.</p>
+      </div>
+      <div class="reveal border-t border-border pt-5">
+        <div class="font-mono text-accent text-[13px] font-bold">03</div>
+        <h3 class="text-[19px] my-2.5">Get funded, get paid</h3>
+        <p id="how-step-3" class="text-ink-soft text-[14.5px]">Trade the funded account, request a payout on your schedule. Average turnaround: 5 days.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { getSettings } from "../lib/settings-client";
+  getSettings().then((s) => {
+    if (!s.avg_payout_days) return;
+    const el = document.getElementById("how-step-3");
+    if (el) el.textContent = `Trade the funded account, request a payout on your schedule. Average turnaround: ${s.avg_payout_days}.`;
+  });
+</script>

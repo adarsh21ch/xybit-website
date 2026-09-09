@@ -1,0 +1,36 @@
+<div class="border-y border-border py-6">
+  <div class="max-w-[1160px] mx-auto px-5 sm:px-7 grid grid-cols-2 md:grid-cols-4 gap-5 text-center">
+    <div>
+      <div id="stat-paid" class="font-mono font-bold text-2xl">$2.1M+</div>
+      <div class="text-[12px] text-ink-faint mt-1">Paid to traders</div>
+    </div>
+    <div>
+      <div id="stat-accounts" class="font-mono font-bold text-2xl">6,400+</div>
+      <div class="text-[12px] text-ink-faint mt-1">Funded accounts</div>
+    </div>
+    <div>
+      <div id="stat-payout-time" class="font-mono font-bold text-2xl">5 days</div>
+      <div class="text-[12px] text-ink-faint mt-1">Avg. payout time</div>
+    </div>
+    <div>
+      <div id="stat-split" class="font-mono font-bold text-2xl">90%</div>
+      <div class="text-[12px] text-ink-faint mt-1">Max profit split</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { getSettings } from "../lib/settings-client";
+
+  getSettings().then((s) => {
+    const set = (id: string, value: string) => {
+      if (!value) return; // keep the static placeholder if nothing's set yet
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    };
+    set("stat-paid", s.paid_out_total);
+    set("stat-accounts", s.funded_accounts);
+    set("stat-payout-time", s.avg_payout_days);
+    set("stat-split", s.max_profit_split);
+  });
+</script>

@@ -1,0 +1,67 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Xybit — Funded Trading Accounts",
+  description = "Get funded up to $200K. Two trades a day, no time limit, real payouts.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="icon" id="favicon-link" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#050505" />
+  </head>
+  <body class="bg-[#050505] text-ink font-body antialiased">
+    <slot />
+
+    <script>
+      import { getSettings } from "../lib/settings-client";
+
+      // Swap the favicon for the uploaded logo once settings load, so the
+      // browser tab matches the on-page branding everywhere else.
+      getSettings().then((s) => {
+        if (!s.logo_url) return;
+        const link = document.getElementById("favicon-link") as HTMLLinkElement | null;
+        if (link) link.href = s.logo_url;
+      });
+
+      // Reveal-on-scroll: add the ready class only once JS confirms it can
+      // run the observer, so content already visible never gets stuck
+      // hidden if this script fails to load.
+      document.documentElement.classList.add("js-reveal-ready");
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              io.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+      );
+      const revealEls = document.querySelectorAll(".reveal");
+      revealEls.forEach((el) => io.observe(el));
+
+      // Safety net: guarantee every section becomes visible within ~2s no
+      // matter what — a resize during capture, a slow device, reduced
+      // motion edge cases, or any other timing race with the observer.
+      // Content must never depend indefinitely on scroll to be readable.
+      setTimeout(() => {
+        revealEls.forEach((el) => el.classList.add("in-view"));
+      }, 2000);
+    </script>
+  </body>
+</html>
