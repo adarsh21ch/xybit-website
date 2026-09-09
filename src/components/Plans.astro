@@ -28,12 +28,13 @@ const plans = [
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-      {plans.map((p) => (
+      {plans.map((p, i) => (
         <div
           class:list={[
-            "reveal relative flex flex-col gap-4 rounded-2xl border p-6",
-            p.featured ? "border-accent bg-gradient-to-b from-accent-bg to-surface" : "border-border bg-surface",
+            "reveal relative flex flex-col gap-4 rounded-2xl border p-6 hover:-translate-y-1 active:scale-[0.98]",
+            p.featured ? "border-accent bg-gradient-to-b from-accent-bg to-surface" : "border-border bg-surface hover:border-ink-faint",
           ]}
+          style={`transition-delay: ${i * 70}ms`}
         >
           {p.featured && (
             <span class="absolute -top-[11px] left-6 bg-accent text-[#0a0500] font-mono text-[10.5px] font-bold tracking-wide px-2.5 py-0.5 rounded">

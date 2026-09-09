@@ -13,9 +13,9 @@
         { q: "Which countries can trade with Xybit?", a: "[Placeholder — list eligible countries / any restrictions here.]" },
       ].map((item) => (
         <details class="border-b border-border group" open={item.open}>
-          <summary class="list-none cursor-pointer py-5 flex justify-between items-center gap-5 font-display font-semibold text-[16px]">
+          <summary class="list-none cursor-pointer py-5 flex justify-between items-center gap-5 font-display font-semibold text-[16px] transition-colors hover:text-accent">
             {item.q}
-            <span class="font-mono text-accent text-xl flex-none transition-transform group-open:rotate-45">+</span>
+            <span class="font-mono text-accent text-xl flex-none transition-transform duration-300 group-open:rotate-45">+</span>
           </summary>
           <p class="text-ink-soft text-[14.5px] pb-5 max-w-[62ch]">{item.a}</p>
         </details>

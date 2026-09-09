@@ -23,6 +23,12 @@ body {
   color: #0a0500;
 }
 
+/* Every section is a scroll/nav anchor target — keep it clear of the
+   sticky header instead of landing half-hidden underneath it. */
+[id] {
+  scroll-margin-top: 5rem;
+}
+
 h1, h2, h3 {
   font-family: theme("fontFamily.display");
   font-weight: 700;
@@ -37,7 +43,15 @@ h1, h2, h3 {
 .reveal {
   opacity: 1;
   transform: none;
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Entrance (opacity/transform) is slow and eased; interactive feedback
+     (border/shadow on hover or tap) rides the same declaration but fast —
+     kept in one rule so a hover utility class elsewhere can never silently
+     lose the cascade to this one. */
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.3s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 .js-reveal-ready .reveal {
   opacity: 0;

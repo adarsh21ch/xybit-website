@@ -1,7 +1,12 @@
 ---
 ---
 
-<header id="top" class="pt-12 md:pt-20 pb-14 md:pb-16">
+<header id="top" class="relative pt-12 md:pt-20 pb-14 md:pb-16 overflow-hidden">
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -z-10 top-[-10%] right-[8%] w-[420px] h-[420px] rounded-full bg-accent/20 blur-[110px]"
+  >
+  </div>
   <div class="max-w-[1160px] mx-auto px-5 sm:px-7 grid md:grid-cols-[1.15fr_.85fr] gap-10 md:gap-12 items-center">
     <div class="reveal">
       <div class="inline-flex items-center gap-2 font-mono text-[11.5px] tracking-widest uppercase text-accent mb-5">
@@ -18,7 +23,7 @@
         <a href="#accounts" class="inline-flex items-center gap-1.5 bg-accent text-[#0a0500] font-display font-bold text-[14.5px] px-5 py-3.5 rounded-lg hover:bg-[#ff7f4a] hover:-translate-y-px transition-all">
           <span id="hero-cta-label">Claim 40% Off →</span>
         </a>
-        <a href="#accounts" class="inline-flex items-center gap-1.5 bg-transparent text-ink border border-border font-display font-bold text-[14.5px] px-5 py-3.5 rounded-lg hover:border-ink-faint transition-all">
+        <a href="#accounts" class="inline-flex items-center gap-1.5 bg-transparent text-ink border border-border font-display font-bold text-[14.5px] px-5 py-3.5 rounded-lg hover:border-ink-faint hover:-translate-y-px transition-all">
           See account sizes
         </a>
       </div>

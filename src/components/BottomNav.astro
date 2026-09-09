@@ -7,11 +7,11 @@ import Logo from "./Logo.astro";
   aria-label="Primary"
 >
   <div class="grid grid-cols-5 items-end px-2 pt-2">
-    <a href="#top" class="flex flex-col items-center gap-1 py-1.5 text-ink-faint hover:text-ink-soft">
+    <a href="#top" data-nav-link="top" class="flex flex-col items-center gap-1 py-1.5 text-ink-faint transition-colors hover:text-ink-soft">
       <Logo size={20} />
       <span class="text-[10px] font-mono">Home</span>
     </a>
-    <a href="#accounts" class="flex flex-col items-center gap-1 py-1.5 text-ink-faint hover:text-ink-soft">
+    <a href="#accounts" data-nav-link="accounts" class="flex flex-col items-center gap-1 py-1.5 text-ink-faint transition-colors hover:text-ink-soft">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
       <span class="text-[10px] font-mono">Accounts</span>
     </a>
@@ -27,11 +27,11 @@ import Logo from "./Logo.astro";
       </span>
       <span class="text-[10px] font-mono text-accent mt-1">Get Funded</span>
     </a>
-    <a href="#payouts" class="flex flex-col items-center gap-1 py-1.5 text-ink-faint hover:text-ink-soft">
+    <a href="#payouts" data-nav-link="payouts" class="flex flex-col items-center gap-1 py-1.5 text-ink-faint transition-colors hover:text-ink-soft">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17 9 11l4 4 8-8"/><path d="M15 7h6v6"/></svg>
       <span class="text-[10px] font-mono">Payouts</span>
     </a>
-    <a href="#faq" class="flex flex-col items-center gap-1 py-1.5 text-ink-faint hover:text-ink-soft">
+    <a href="#faq" data-nav-link="faq" class="flex flex-col items-center gap-1 py-1.5 text-ink-faint transition-colors hover:text-ink-soft">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.9.4-1.5 1-1.5 2.2"/><path d="M12 17h.01"/></svg>
       <span class="text-[10px] font-mono">FAQ</span>
     </a>
@@ -46,4 +46,30 @@ import Logo from "./Logo.astro";
       a.href = s.redirect_url;
     });
   });
+
+  // Scroll-spy: highlight whichever section the visitor is actually
+  // reading, so the bottom nav tracks scroll position like a native app
+  // tab bar instead of only responding to taps.
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]");
+  const sectionIds = Array.from(navLinks).map((a) => a.dataset.navLink!);
+  const sections = sectionIds
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  const setActive = (id: string) => {
+    navLinks.forEach((a) => {
+      const active = a.dataset.navLink === id;
+      a.classList.toggle("text-accent", active);
+      a.classList.toggle("text-ink-faint", !active);
+    });
+  };
+
+  const spy = new IntersectionObserver(
+    (entries) => {
+      const visible = entries.find((e) => e.isIntersecting);
+      if (visible) setActive(visible.target.id);
+    },
+    { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
+  );
+  sections.forEach((el) => spy.observe(el));
 </script>

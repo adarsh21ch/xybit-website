@@ -10,8 +10,8 @@
         { name: "R. Achebe", tier: "50K Account", quote: "First payout hit in 6 days. No back-and-forth, no questions.", amount: "$4,250" },
         { name: "M. Iyer", tier: "100K Account", quote: "Two trades a day forced me to actually wait for my setup instead of forcing it.", amount: "$9,800" },
         { name: "D. Torres", tier: "25K Account", quote: "Passed on my second attempt. The rules are strict but they're not hidden anywhere.", amount: "$2,120" },
-      ].map((t) => (
-        <div class="reveal bg-surface border border-border rounded-2xl p-5">
+      ].map((t, i) => (
+        <div class="reveal bg-surface border border-border rounded-2xl p-5 hover:-translate-y-1 hover:border-ink-faint active:scale-[0.98]" style={`transition-delay: ${i * 70}ms`}>
           <div class="flex items-center gap-2.5 mb-3.5">
             <span class="w-[34px] h-[34px] rounded-full border border-dashed border-ink-faint/60 flex items-center justify-center text-[9px] font-mono text-ink-faint flex-none">img</span>
             <div>
