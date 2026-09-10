@@ -1,23 +1,57 @@
-<section id="faq" class="py-16 md:py-20">
-  <div class="max-w-[1160px] mx-auto px-5 sm:px-7">
-    <div class="reveal max-w-[60ch] mb-10">
-      <div class="font-mono text-[11.5px] tracking-widest uppercase text-ink-faint mb-2.5">FAQ</div>
-      <h2 class="text-[26px] md:text-[32px]">Before you ask support</h2>
+---
+// Two-column on desktop (sticky heading beside the list) so this section
+// doesn't read as another centered stack like the ones above it.
+//
+// NOTE FOR THE SITE OWNER: the last two answers are still stubs — fill in
+// your real EA/copy-trading rule and your eligible-countries list before
+// running traffic. Both are questions buyers check before paying.
+const faqs = [
+  {
+    q: "What happens if I fail the evaluation?",
+    a: "You can retry at the standard reset price. The launch discount applies once, to your first purchase.",
+    open: true,
+  },
+  {
+    q: "How fast are payouts, really?",
+    a: "5 business days on average once you request one. You can request a payout on your own schedule after the minimum trading-day requirement.",
+  },
+  {
+    q: "Is there a time limit on the evaluation?",
+    a: "No. Trade your two to three setups a day for as long as it takes to hit the profit target — there's no clock pushing you into extra trades.",
+  },
+  {
+    q: "Can I use EAs or copy trading?",
+    a: "[Set your actual rule here before publishing.]",
+  },
+  {
+    q: "Which countries can trade with Xybit?",
+    a: "[List eligible countries and any restrictions here.]",
+  },
+];
+---
+
+<section id="faq" class="py-20 md:py-28">
+  <div class="max-w-[1160px] mx-auto px-5 sm:px-7 grid md:grid-cols-[0.8fr_1.2fr] gap-10 md:gap-16">
+    <div class="reveal md:sticky md:top-24 md:self-start">
+      <div class="font-mono text-[11.5px] tracking-widest uppercase text-ink-faint mb-3">FAQ</div>
+      <h2 class="text-[30px] md:text-[40px] leading-[1.1] mb-4">
+        Before you<br class="hidden md:block" /> ask support
+      </h2>
+      <p class="text-ink-soft text-[15px] max-w-[32ch]">
+        The five things traders ask us most, answered straight.
+      </p>
     </div>
-    <div class="reveal max-w-[760px] flex flex-col">
-      {[
-        { q: "What happens if I fail the evaluation?", a: "You can retry at the standard reset price. The launch discount applies once, to your first purchase.", open: true },
-        { q: "How fast are payouts, really?", a: "5 business days on average once you request one. You can request a payout on your own schedule after the minimum trading-day requirement." },
-        { q: "Is there a time limit on the evaluation?", a: "No. Trade your two to three setups a day for as long as it takes to hit the profit target — there's no clock forcing extra trades." },
-        { q: "Can I use EAs or copy trading?", a: "[Placeholder — state your actual rule here before publishing; this is a common objection buyers check before purchasing.]" },
-        { q: "Which countries can trade with Xybit?", a: "[Placeholder — list eligible countries / any restrictions here.]" },
-      ].map((item) => (
-        <details class="border-b border-border group" open={item.open}>
-          <summary class="list-none cursor-pointer py-5 flex justify-between items-center gap-5 font-display font-semibold text-[16px] transition-colors hover:text-accent">
+
+    <div class="reveal flex flex-col">
+      {faqs.map((item) => (
+        <details class="group border-b border-border first:border-t first:border-border" open={item.open}>
+          <summary class="list-none cursor-pointer py-5 flex justify-between items-center gap-6 font-display font-semibold text-[16px] md:text-[17px] transition-colors hover:text-accent">
             {item.q}
-            <span class="font-mono text-accent text-xl flex-none transition-transform duration-300 group-open:rotate-45">+</span>
+            <span class="flex-none w-7 h-7 rounded-full border border-border flex items-center justify-center font-mono text-accent text-lg leading-none transition-all duration-300 group-open:rotate-45 group-open:border-accent/60 group-open:bg-accent/10">
+              +
+            </span>
           </summary>
-          <p class="text-ink-soft text-[14.5px] pb-5 max-w-[62ch]">{item.a}</p>
+          <p class="text-ink-soft text-[14.5px] leading-relaxed pb-6 max-w-[58ch]">{item.a}</p>
         </details>
       ))}
     </div>

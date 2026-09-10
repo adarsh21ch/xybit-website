@@ -75,3 +75,84 @@ h1, h2, h3 {
 .pb-safe {
   padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
 }
+
+/* ---------- Ambient hero glow ---------- */
+/* Slow, low-contrast drift. Ambient only — nothing readable depends on it. */
+.aurora {
+  animation: drift 18s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-6%, 4%, 0) scale(1.15); }
+}
+
+/* ---------- Stat ticker ---------- */
+/* Track holds the content twice; translating exactly -50% loops seamlessly. */
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 38s linear infinite;
+}
+@keyframes ticker {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+.ticker:hover .ticker-track {
+  animation-play-state: paused;
+}
+/* Fade the strip into the page edges instead of cutting hard. */
+.ticker-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* ---------- Step path draw-in ---------- */
+.path-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.in-view .path-line,
+.path-line.in-view {
+  stroke-dashoffset: 0;
+}
+
+/* ---------- CTA pulse ---------- */
+.cta-glow {
+  position: relative;
+}
+.cta-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 rgba(255, 106, 46, 0.55);
+  animation: pulse 2.8s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 106, 46, 0.5); }
+  70%  { box-shadow: 0 0 0 18px rgba(255, 106, 46, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 106, 46, 0); }
+}
+
+/* ---------- Horizontal snap rail (mobile proof cards) ---------- */
+.snap-rail {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.snap-rail::-webkit-scrollbar { display: none; }
+.snap-rail > * { scroll-snap-align: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora,
+  .ticker-track,
+  .cta-glow::after {
+    animation: none !important;
+  }
+  .path-line {
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
+}

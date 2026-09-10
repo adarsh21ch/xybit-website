@@ -1,21 +1,28 @@
-<div class="border-y border-border py-6">
-  <div class="max-w-[1160px] mx-auto px-5 sm:px-7 grid grid-cols-2 md:grid-cols-4 gap-5 text-center">
-    <div>
-      <div id="stat-paid" class="font-mono font-bold text-2xl">$2.1M+</div>
-      <div class="text-[12px] text-ink-faint mt-1">Paid to traders</div>
-    </div>
-    <div>
-      <div id="stat-accounts" class="font-mono font-bold text-2xl">6,400+</div>
-      <div class="text-[12px] text-ink-faint mt-1">Funded accounts</div>
-    </div>
-    <div>
-      <div id="stat-payout-time" class="font-mono font-bold text-2xl">5 days</div>
-      <div class="text-[12px] text-ink-faint mt-1">Avg. payout time</div>
-    </div>
-    <div>
-      <div id="stat-split" class="font-mono font-bold text-2xl">90%</div>
-      <div class="text-[12px] text-ink-faint mt-1">Max profit split</div>
-    </div>
+---
+// A looping ticker rather than a static stat row — it reads as a live
+// desk rather than a brochure, and it's the one horizontal-motion moment
+// on the page, so it doesn't compete with anything else.
+const stats = [
+  { key: "paid_out_total", value: "$2.1M+", label: "Paid to traders" },
+  { key: "funded_accounts", value: "6,400+", label: "Funded accounts" },
+  { key: "avg_payout_days", value: "5 days", label: "Avg. payout time" },
+  { key: "max_profit_split", value: "90%", label: "Max profit split" },
+  { key: "countries", value: "40+", label: "Countries funded" },
+];
+---
+
+<div class="ticker ticker-mask border-y border-border bg-[#080808] py-5 overflow-hidden">
+  <div class="ticker-track">
+    {[0, 1].map((pass) => (
+      <div class="flex shrink-0" aria-hidden={pass === 1 ? "true" : undefined}>
+        {stats.map((s) => (
+          <div class="flex items-baseline gap-2.5 px-7 border-r border-border/60 whitespace-nowrap">
+            <span class="font-mono font-bold text-xl text-ink" data-stat={s.key}>{s.value}</span>
+            <span class="text-[12.5px] text-ink-faint">{s.label}</span>
+          </div>
+        ))}
+      </div>
+    ))}
   </div>
 </div>
 
@@ -23,14 +30,17 @@
   import { getSettings } from "../lib/settings-client";
 
   getSettings().then((s) => {
-    const set = (id: string, value: string) => {
-      if (!value) return; // keep the static placeholder if nothing's set yet
-      const el = document.getElementById(id);
-      if (el) el.textContent = value;
+    // Both ticker copies carry data-stat, so an admin change lands on the
+    // visible half of the loop as well as the duplicate.
+    const apply = (key: string, value: string) => {
+      if (!value) return;
+      document.querySelectorAll<HTMLElement>(`[data-stat="${key}"]`).forEach((el) => {
+        el.textContent = value;
+      });
     };
-    set("stat-paid", s.paid_out_total);
-    set("stat-accounts", s.funded_accounts);
-    set("stat-payout-time", s.avg_payout_days);
-    set("stat-split", s.max_profit_split);
+    apply("paid_out_total", s.paid_out_total);
+    apply("funded_accounts", s.funded_accounts);
+    apply("avg_payout_days", s.avg_payout_days);
+    apply("max_profit_split", s.max_profit_split);
   });
 </script>

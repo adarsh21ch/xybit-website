@@ -1,19 +1,36 @@
-<section class="py-16 md:py-20 border-t border-border text-center">
-  <div class="max-w-[1160px] mx-auto px-5 sm:px-7">
-    <div class="reveal font-mono text-[11.5px] tracking-widest uppercase text-ink-faint mb-2.5">Launch offer</div>
-    <h2 class="reveal text-[clamp(28px,5.5vw,46px)] mb-3">Get funded before the offer ends.</h2>
-    <p id="final-cta-sub" class="reveal text-ink-soft text-[15px] max-w-[48ch] mx-auto mb-7">
-      40% off every account size. Code applied automatically at checkout.
+---
+import { DEFAULT_SETTINGS } from "../lib/settings";
+---
+
+<section class="relative py-20 md:py-28 border-t border-border overflow-hidden">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+    <div class="absolute inset-x-0 bottom-[-40%] h-[520px] bg-[radial-gradient(ellipse_at_bottom,rgba(255,106,46,.22),transparent_65%)]"></div>
+  </div>
+
+  <div class="max-w-[1160px] mx-auto px-5 sm:px-7 text-center">
+    <div class="reveal font-mono text-[11.5px] tracking-widest uppercase text-accent mb-4">Launch offer</div>
+
+    <h2 class="reveal text-[clamp(30px,6vw,52px)] leading-[1.05] tracking-[-0.02em] mb-5 max-w-[18ch] mx-auto">
+      Get funded before the offer ends.
+    </h2>
+
+    <p id="final-cta-sub" class="reveal text-ink-soft text-[16px] max-w-[46ch] mx-auto mb-9">
+      {DEFAULT_SETTINGS.discount_percent}% off every account size. Code applied automatically at checkout.
     </p>
-    <div class="reveal">
+
+    <div class="reveal flex flex-col items-center gap-4">
       <a
         data-cta-redirect
         data-external="true"
         href="#accounts"
-        class="inline-flex items-center gap-1.5 bg-accent text-[#0a0500] font-display font-bold text-[14.5px] px-6 py-4 rounded-lg hover:bg-[#ff7f4a] hover:-translate-y-px transition-all"
+        class="cta-glow group inline-flex items-center gap-2 bg-accent text-[#0a0500] font-display font-bold text-[16px] px-8 py-[18px] rounded-xl hover:bg-[#ff7f4a] hover:-translate-y-0.5 transition-all"
       >
-        <span id="final-cta-label">Claim 40% Off →</span>
+        <span id="final-cta-label">Claim {DEFAULT_SETTINGS.discount_percent}% Off</span>
+        <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
       </a>
+      <span id="final-cta-note" class="font-mono text-[12px] text-ink-faint">
+        Code {DEFAULT_SETTINGS.coupon_code}
+      </span>
     </div>
   </div>
 </section>
@@ -26,7 +43,11 @@
     if (sub) sub.textContent = `${s.discount_percent}% off every account size. Code applied automatically at checkout.`;
 
     const label = document.getElementById("final-cta-label");
-    if (label) label.textContent = `Claim ${s.discount_percent}% Off →`;
+    if (label) label.textContent = `Claim ${s.discount_percent}% Off`;
+
+    const note = document.getElementById("final-cta-note");
+    if (note) note.textContent = s.offer_end_date ? `Code ${s.coupon_code} · Ends ${s.offer_end_date}` : `Code ${s.coupon_code}`;
+
     document.querySelectorAll<HTMLAnchorElement>("[data-cta-redirect][data-external='true']").forEach((a) => {
       a.href = s.redirect_url;
     });

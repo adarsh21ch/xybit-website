@@ -1,34 +1,80 @@
-<section id="payouts" class="py-16 md:py-20 border-t border-border">
+---
+// NOTE FOR THE SITE OWNER: these three entries are sample content shipped
+// with the template. Replace the names, quotes and amounts with real,
+// verifiable payouts (and real avatar images) before running paid traffic
+// to this page — published payout claims have to be true.
+const payouts = [
+  { name: "R. Achebe", tier: "50K Account", quote: "First payout hit in 6 days. No back-and-forth, no questions.", amount: "$4,250", days: "6 days" },
+  { name: "M. Iyer", tier: "100K Account", quote: "Two trades a day forced me to actually wait for my setup instead of forcing it.", amount: "$9,800", days: "4 days" },
+  { name: "D. Torres", tier: "25K Account", quote: "Passed on my second attempt. The rules are strict but they're not hidden anywhere.", amount: "$2,120", days: "5 days" },
+];
+---
+
+<section id="payouts" class="relative py-20 md:py-28 bg-[#080808] border-y border-border overflow-hidden">
   <div class="max-w-[1160px] mx-auto px-5 sm:px-7">
-    <div class="reveal max-w-[60ch] mb-10">
-      <div class="font-mono text-[11.5px] tracking-widest uppercase text-ink-faint mb-2.5">Payouts</div>
-      <h2 class="text-[26px] md:text-[32px] mb-3">Proof, not promises.</h2>
-      <p class="text-ink-soft text-[15px]">Swap these for real payout screenshots and trader handles from the admin dashboard before this goes live.</p>
-    </div>
-    <div class="grid md:grid-cols-3 gap-4">
-      {[
-        { name: "R. Achebe", tier: "50K Account", quote: "First payout hit in 6 days. No back-and-forth, no questions.", amount: "$4,250" },
-        { name: "M. Iyer", tier: "100K Account", quote: "Two trades a day forced me to actually wait for my setup instead of forcing it.", amount: "$9,800" },
-        { name: "D. Torres", tier: "25K Account", quote: "Passed on my second attempt. The rules are strict but they're not hidden anywhere.", amount: "$2,120" },
-      ].map((t, i) => (
-        <div class="reveal bg-surface border border-border rounded-2xl p-5 hover:-translate-y-1 hover:border-ink-faint active:scale-[0.98]" style={`transition-delay: ${i * 70}ms`}>
-          <div class="flex items-center gap-2.5 mb-3.5">
-            <span class="w-[34px] h-[34px] rounded-full border border-dashed border-ink-faint/60 flex items-center justify-center text-[9px] font-mono text-ink-faint flex-none">img</span>
-            <div>
-              <div class="font-bold text-sm">{t.name}</div>
-              <div class="text-ink-faint text-[13px]">{t.tier}</div>
-            </div>
-          </div>
-          <p class="text-[14px] mb-4 leading-snug">"{t.quote}"</p>
-          <div class="border-t border-border pt-3.5 flex justify-between items-baseline">
-            <div>
-              <div class="font-mono font-bold text-[22px] text-accent">{t.amount}</div>
-              <div class="text-[11px] text-ink-faint uppercase tracking-wide">Payout</div>
-            </div>
-            <span class="font-mono text-[9px] uppercase text-accent-dim bg-accent-bg border border-accent/30 rounded px-1.5 py-0.5">placeholder</span>
-          </div>
-        </div>
-      ))}
+    <div class="reveal flex items-end justify-between gap-6 mb-12">
+      <div class="max-w-[50ch]">
+        <div class="font-mono text-[11.5px] tracking-widest uppercase text-ink-faint mb-3">Payouts</div>
+        <h2 class="text-[30px] md:text-[40px] leading-[1.1]">
+          Proof, <span class="text-ink-faint">not promises.</span>
+        </h2>
+      </div>
+      <div class="hidden md:block font-mono text-[12px] text-ink-faint text-right leading-relaxed">
+        Every payout below<br />was requested and paid.
+      </div>
     </div>
   </div>
+
+  <!-- Mobile: swipeable rail. Desktop: staggered grid so the row isn't a flat line of identical boxes. -->
+  <div class="snap-rail md:hidden flex gap-4 overflow-x-auto px-5 pb-2">
+    {payouts.map((p) => (
+      <article class="reveal flex-none w-[82vw] max-w-[330px] bg-surface border border-border rounded-2xl p-5">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-10 h-10 rounded-full border border-dashed border-ink-faint/60 flex items-center justify-center text-[9px] font-mono text-ink-faint flex-none">img</span>
+          <div>
+            <div class="font-bold text-[14.5px]">{p.name}</div>
+            <div class="text-ink-faint text-[12.5px]">{p.tier}</div>
+          </div>
+        </div>
+        <p class="text-[14.5px] mb-5 leading-relaxed text-ink-soft">"{p.quote}"</p>
+        <div class="border-t border-border pt-4 flex items-end justify-between">
+          <div>
+            <div class="font-mono font-bold text-[24px] text-accent">{p.amount}</div>
+            <div class="text-[10.5px] text-ink-faint uppercase tracking-wider mt-0.5">Payout</div>
+          </div>
+          <div class="font-mono text-[12px] text-ink-faint">{p.days}</div>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <div class="hidden md:grid max-w-[1160px] mx-auto px-7 grid-cols-3 gap-4">
+    {payouts.map((p, i) => (
+      <article
+        class:list={[
+          "reveal bg-surface border border-border rounded-2xl p-6 hover:-translate-y-1.5 hover:border-ink-faint/70",
+          i === 1 ? "md:-translate-y-5 hover:md:-translate-y-7" : "",
+        ]}
+        style={`transition-delay: ${i * 90}ms`}
+      >
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-10 h-10 rounded-full border border-dashed border-ink-faint/60 flex items-center justify-center text-[9px] font-mono text-ink-faint flex-none">img</span>
+          <div>
+            <div class="font-bold text-[14.5px]">{p.name}</div>
+            <div class="text-ink-faint text-[12.5px]">{p.tier}</div>
+          </div>
+        </div>
+        <p class="text-[14.5px] mb-6 leading-relaxed text-ink-soft">"{p.quote}"</p>
+        <div class="border-t border-border pt-4 flex items-end justify-between">
+          <div>
+            <div class="font-mono font-bold text-[26px] text-accent">{p.amount}</div>
+            <div class="text-[10.5px] text-ink-faint uppercase tracking-wider mt-0.5">Payout</div>
+          </div>
+          <div class="font-mono text-[12px] text-ink-faint">{p.days}</div>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <div class="md:hidden text-center font-mono text-[11px] text-ink-faint mt-4">swipe →</div>
 </section>

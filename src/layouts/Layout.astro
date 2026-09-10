@@ -28,6 +28,7 @@ const {
 
     <script>
       import { getSettings } from "../lib/settings-client";
+      import { initCountUp } from "../lib/countup";
 
       // Swap the favicon for the uploaded logo once settings load, so the
       // browser tab matches the on-page branding everywhere else.
@@ -62,6 +63,8 @@ const {
       setTimeout(() => {
         revealEls.forEach((el) => el.classList.add("in-view"));
       }, 2000);
+
+      initCountUp();
     </script>
   </body>
 </html>

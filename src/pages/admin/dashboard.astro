@@ -20,7 +20,18 @@ import Layout from "../../layouts/Layout.astro";
 
     <main id="dash-main" class="max-w-[820px] mx-auto px-5 pt-10 hidden">
       <h1 class="text-2xl font-display font-bold mb-1">Site settings</h1>
-      <p class="text-ink-soft text-sm mb-8">Changes apply instantly on the live site — no redeploy needed.</p>
+      <p class="text-ink-soft text-sm mb-6">Changes apply instantly on the live site — no redeploy needed.</p>
+
+      <div class="mb-8 flex gap-3 rounded-xl border border-[#e08165]/40 bg-[#e08165]/10 p-4">
+        <span class="flex-none w-6 h-6 rounded-md border border-[#e08165] text-[#e08165] font-mono text-xs flex items-center justify-center">!</span>
+        <p class="text-[13.5px] text-ink-soft">
+          <strong class="text-ink">The site ships with sample figures.</strong> The payout totals, funded-account
+          counts and the three payout testimonials on the homepage are placeholder content from the template.
+          Replace them with real, verifiable numbers below (and real testimonials in
+          <code class="text-ink-faint">src/components/Proof.astro</code>) before running paid traffic — published
+          payout claims have to be true.
+        </p>
+      </div>
 
       <form id="settings-form" class="flex flex-col gap-8">
         <!-- Branding -->

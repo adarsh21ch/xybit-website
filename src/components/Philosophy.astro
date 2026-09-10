@@ -1,11 +1,34 @@
-<div class="border-y border-border bg-surface">
-  <div class="max-w-[1160px] mx-auto px-5 sm:px-7 py-20 md:py-24 text-center">
-    <blockquote class="reveal font-display font-bold text-[clamp(24px,5.5vw,40px)] leading-[1.25] max-w-[22ch] mx-auto mb-6">
-      10 trades, 10 losses — that's an account. 2 trades, 2 losses — that's a Tuesday.
-    </blockquote>
-    <a href="/blog/two-traders" class="reveal inline-flex items-center gap-1.5 font-mono text-[13px] text-accent hover:underline">
-      Read: Two Traders →
-    </a>
-    <div class="reveal mt-10 font-mono text-[12px] text-ink-faint">— from the Xybit trading-psychology series</div>
+<section class="relative py-20 md:py-28 overflow-hidden">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+    <div class="aurora absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[380px] rounded-full bg-accent/12 blur-[140px]"></div>
   </div>
-</div>
+
+  <div class="max-w-[1160px] mx-auto px-5 sm:px-7">
+    <div class="relative max-w-[900px] mx-auto text-center">
+      <svg
+        aria-hidden="true"
+        class="reveal mx-auto mb-6 text-accent/25"
+        width="52"
+        height="40"
+        viewBox="0 0 52 40"
+        fill="currentColor"
+      >
+        <path d="M0 40V21.7C0 9.9 6.6 2.6 19.3 0l2.4 6.5c-7.4 2-11.1 6-11.4 12.2H21V40H0Zm31 0V21.7C31 9.9 37.6 2.6 50.3 0l2.4 6.5c-7.4 2-11.1 6-11.4 12.2H52V40H31Z"/>
+      </svg>
+
+      <blockquote class="reveal font-display font-bold text-[clamp(26px,5.2vw,46px)] leading-[1.2] tracking-[-0.015em]">
+        10 trades, 10 losses — that's an account.<br class="hidden md:block" />
+        <span class="text-ink-faint"> 2 trades, 2 losses — that's a Tuesday.</span>
+      </blockquote>
+
+      <div class="reveal mt-10 flex items-center justify-center gap-5 flex-wrap">
+        <a href="/blog/two-traders" class="group inline-flex items-center gap-2 font-mono text-[13px] text-accent">
+          Read: Two Traders
+          <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
+        </a>
+        <span class="hidden sm:block w-px h-4 bg-border"></span>
+        <span class="font-mono text-[12px] text-ink-faint">from the Xybit trading-psychology series</span>
+      </div>
+    </div>
+  </div>
+</section>

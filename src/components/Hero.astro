@@ -1,53 +1,73 @@
 ---
+import { DEFAULT_SETTINGS, applyHeadline } from "../lib/settings";
+
+const headline = applyHeadline(DEFAULT_SETTINGS.headline, DEFAULT_SETTINGS.discount_percent);
 ---
 
-<header id="top" class="relative pt-12 md:pt-20 pb-14 md:pb-16 overflow-hidden">
-  <div
-    aria-hidden="true"
-    class="pointer-events-none absolute -z-10 top-[-10%] right-[8%] w-[420px] h-[420px] rounded-full bg-accent/20 blur-[110px]"
-  >
+<header id="top" class="relative pt-14 md:pt-24 pb-16 md:pb-20 overflow-hidden">
+  <!-- Ambient depth. Decorative only — carries no content. -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+    <div class="aurora absolute top-[-25%] right-[-5%] w-[520px] h-[520px] rounded-full bg-accent/25 blur-[120px]"></div>
+    <div class="aurora absolute top-[20%] left-[-15%] w-[380px] h-[380px] rounded-full bg-[#3a2a7a]/25 blur-[130px]" style="animation-duration: 24s; animation-direction: alternate-reverse;"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,transparent_35%,#050505_78%)]"></div>
   </div>
-  <div class="max-w-[1160px] mx-auto px-5 sm:px-7 grid md:grid-cols-[1.15fr_.85fr] gap-10 md:gap-12 items-center">
+
+  <div class="max-w-[1160px] mx-auto px-5 sm:px-7 grid md:grid-cols-[1.1fr_.9fr] gap-12 md:gap-14 items-center">
     <div class="reveal">
-      <div class="inline-flex items-center gap-2 font-mono text-[11.5px] tracking-widest uppercase text-accent mb-5">
-        <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
-        Funded trading accounts
+      <div class="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 pl-2 pr-3.5 py-1.5 font-mono text-[11px] tracking-widest uppercase text-accent mb-6">
+        <span class="relative flex h-1.5 w-1.5">
+          <span class="absolute inline-flex h-full w-full rounded-full bg-accent opacity-70"></span>
+        </span>
+        Launch offer live
       </div>
-      <h1 id="hero-headline" class="text-[clamp(34px,7vw,58px)] leading-[1.05] mb-4">
-        40% Off Every Funded Account.
+
+      <h1 id="hero-headline" class="text-[clamp(38px,8vw,64px)] leading-[1.02] mb-5 tracking-[-0.02em]">
+        {headline}
       </h1>
-      <p id="hero-sub" class="text-[17px] md:text-[17.5px] text-ink-soft max-w-[46ch] mb-7">
-        Two trades a day. Real capital, up to $200K. No hype — just the evaluation, the rules, and the payout.
+
+      <p id="hero-sub" class="text-[17px] md:text-[18px] text-ink-soft max-w-[44ch] mb-8 leading-relaxed">
+        {DEFAULT_SETTINGS.subheadline}
       </p>
-      <div class="flex items-center gap-4 flex-wrap">
-        <a href="#accounts" class="inline-flex items-center gap-1.5 bg-accent text-[#0a0500] font-display font-bold text-[14.5px] px-5 py-3.5 rounded-lg hover:bg-[#ff7f4a] hover:-translate-y-px transition-all">
-          <span id="hero-cta-label">Claim 40% Off →</span>
+
+      <div class="flex items-center gap-3.5 flex-wrap">
+        <a href="#accounts" class="group inline-flex items-center gap-2 bg-accent text-[#0a0500] font-display font-bold text-[15px] px-6 py-4 rounded-xl hover:bg-[#ff7f4a] hover:-translate-y-0.5 hover:shadow-[0_14px_34px_-12px_rgba(255,106,46,.8)] transition-all">
+          <span id="hero-cta-label">Claim {DEFAULT_SETTINGS.discount_percent}% Off</span>
+          <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
         </a>
-        <a href="#accounts" class="inline-flex items-center gap-1.5 bg-transparent text-ink border border-border font-display font-bold text-[14.5px] px-5 py-3.5 rounded-lg hover:border-ink-faint hover:-translate-y-px transition-all">
-          See account sizes
+        <a href="#how" class="inline-flex items-center gap-1.5 text-ink-soft font-display font-semibold text-[15px] px-4 py-4 rounded-xl hover:text-ink transition-colors">
+          How it works
         </a>
       </div>
-      <div id="hero-note" class="mt-4 font-mono text-[12.5px] text-ink-faint">
-        Code <strong class="text-ink-soft">XYBIT40</strong> auto-applied at checkout
+
+      <div id="hero-note" class="mt-6 font-mono text-[12.5px] text-ink-faint">
+        Code <strong class="text-accent">{DEFAULT_SETTINGS.coupon_code}</strong> auto-applied at checkout
       </div>
     </div>
 
-    <div class="reveal bg-surface border border-border rounded-2xl p-5 shadow-[0_30px_60px_-30px_rgba(0,0,0,.7)]">
-      <div class="flex items-center gap-2.5 mb-3.5">
-        <span class="w-[34px] h-[34px] rounded-full border border-dashed border-ink-faint/60 flex items-center justify-center text-[9px] font-mono text-ink-faint flex-none">logo</span>
-        <div>
-          <div class="font-bold text-sm flex items-center gap-1">
-            Xybit
-            <span class="w-3.5 h-3.5 rounded-full bg-accent inline-flex items-center justify-center text-[9px] text-[#0a0500]">✓</span>
+    <div class="reveal relative">
+      <div class="relative bg-gradient-to-b from-surface-2 to-surface border border-border rounded-2xl p-6 shadow-[0_40px_80px_-40px_rgba(0,0,0,.9)]">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-[38px] h-[38px] rounded-full border border-dashed border-ink-faint/60 flex items-center justify-center text-[9px] font-mono text-ink-faint flex-none">logo</span>
+          <div>
+            <div class="font-bold text-[15px] flex items-center gap-1.5">
+              Xybit
+              <span class="w-3.5 h-3.5 rounded-full bg-accent inline-flex items-center justify-center text-[9px] text-[#0a0500]">✓</span>
+            </div>
+            <div class="text-ink-faint text-[13px]">@xybitfunds</div>
           </div>
-          <div class="text-ink-faint text-[13px]">@xybitfunds</div>
         </div>
-      </div>
-      <p class="text-[15px] mb-4 leading-snug">"You don't get paid for the trades you take. You get paid for the ones you skip."</p>
-      <div class="border-t border-border pt-3.5 flex justify-between items-baseline">
-        <div>
-          <div id="hero-stat" class="font-mono font-bold text-[26px] text-accent">$—</div>
-          <div class="text-[11.5px] text-ink-faint uppercase tracking-wide">Paid out this month</div>
+        <p class="text-[16px] mb-5 leading-relaxed">
+          "You don't get paid for the trades you take. You get paid for the ones you skip."
+        </p>
+        <div class="border-t border-border pt-4 grid grid-cols-2 gap-4">
+          <div>
+            <div id="hero-stat" data-countup class="font-mono font-bold text-[26px] text-accent">$482,900</div>
+            <div class="text-[11px] text-ink-faint uppercase tracking-wider mt-0.5">Paid out this month</div>
+          </div>
+          <div>
+            <div data-countup class="font-mono font-bold text-[26px] text-ink">1,204</div>
+            <div class="text-[11px] text-ink-faint uppercase tracking-wider mt-0.5">Payouts sent</div>
+          </div>
         </div>
       </div>
     </div>
@@ -66,12 +86,12 @@
     if (sub) sub.textContent = s.subheadline;
 
     const ctaLabel = document.getElementById("hero-cta-label");
-    if (ctaLabel) ctaLabel.textContent = `Claim ${s.discount_percent}% Off →`;
+    if (ctaLabel) ctaLabel.textContent = `Claim ${s.discount_percent}% Off`;
 
     const note = document.getElementById("hero-note");
     if (note) {
-      const endBit = s.offer_end_date ? ` · Offer ends <strong class="text-ink-soft">${s.offer_end_date}</strong>` : "";
-      note.innerHTML = `Code <strong class="text-ink-soft">${s.coupon_code}</strong> auto-applied at checkout${endBit}`;
+      const endBit = s.offer_end_date ? ` · Ends <strong class="text-ink-soft">${s.offer_end_date}</strong>` : "";
+      note.innerHTML = `Code <strong class="text-accent">${s.coupon_code}</strong> auto-applied at checkout${endBit}`;
     }
     const stat = document.getElementById("hero-stat");
     if (stat && s.paid_out_total) stat.textContent = s.paid_out_total;
