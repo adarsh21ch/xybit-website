@@ -12,6 +12,13 @@ export interface SiteSettings {
   redirect_url: string; // the checkout page the CTA sends people to
   headline: string; // "{discount}" is replaced with the number
   subheadline: string;
+  // Program facts. Every one of these is blank by default and its tile is
+  // hidden until filled in — the numbers have to come from you, not from a
+  // template guess, because they're published claims about your program.
+  fact_capital: string; // e.g. "Up to $200K"
+  fact_split: string; // e.g. "Up to 90%"
+  fact_payout: string; // e.g. "5 business days"
+  fact_platform: string; // e.g. "MT5 · cTrader"
 }
 
 export const DEFAULT_SETTINGS: SiteSettings = {
@@ -23,6 +30,10 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   headline: "Get {discount}% off your Xybit funded account.",
   subheadline:
     "Copy the code below, then apply it at checkout on xybitfunds.com. Works on every account size.",
+  fact_capital: "",
+  fact_split: "",
+  fact_payout: "",
+  fact_platform: "",
 };
 
 const TABLE = "site_settings";

@@ -4,16 +4,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: "#f4f2ee",
+        ink: "#f6f4f1",
         "ink-soft": "#c9c2bb",
-        "ink-faint": "#78716a",
-        surface: "#0e0e0e",
-        "surface-2": "#161616",
-        border: "#232323",
+        "ink-faint": "#837c74",
+        surface: "#0e0e10",
+        "surface-2": "#16161a",
+        border: "#26262c",
         accent: {
           DEFAULT: "#ff6a2e",
           dim: "#a34a20",
           bg: "rgba(255,106,46,.10)",
+        },
+        // Secondary hue, used only in gradients and ambient light so it
+        // never competes with orange for "this is the button".
+        violet: {
+          DEFAULT: "#7c5cff",
+          deep: "#3d2a8c",
         },
       },
       fontFamily: {

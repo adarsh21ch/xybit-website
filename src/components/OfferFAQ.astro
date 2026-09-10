@@ -1,0 +1,57 @@
+---
+// Questions about the offer and this page — things that are knowable from
+// how the page works. Anything about trading rules, eligibility or payout
+// policy is deliberately pointed at the main site rather than answered
+// here with a guess.
+const faqs = [
+  {
+    q: "What is this page?",
+    a: "It's the discount page for Xybit. The code below takes a percentage off the cost of a Xybit evaluation account. You buy the account itself on xybitfunds.com — this page just carries the offer.",
+    open: true,
+  },
+  {
+    q: "Where do I enter the code?",
+    a: "In the discount field on the Xybit checkout, before you pay. Copy it here, then tap through — it'll already be on your clipboard.",
+  },
+  {
+    q: "Does it work on every account size?",
+    a: "Yes, the code applies across account sizes. If your total doesn't change after applying it, the code may have expired — check back here for the current one.",
+  },
+  {
+    q: "Do I need to sign up on this page?",
+    a: "No. There's no account, no email, nothing to fill in here. Copy the code and go.",
+  },
+  {
+    q: "What are the trading rules and payout terms?",
+    a: "Those are set by Xybit and listed in full on xybitfunds.com, along with account sizes and pricing. This page only handles the discount.",
+  },
+];
+---
+
+<section id="faq" class="relative py-20 md:py-28 border-t border-border">
+  <div class="max-w-[1280px] mx-auto px-5 sm:px-7 grid md:grid-cols-[0.75fr_1.25fr] gap-10 md:gap-16">
+    <div class="reveal md:sticky md:top-28 md:self-start">
+      <div class="font-mono text-[11.5px] tracking-[0.18em] uppercase text-accent mb-4">FAQ</div>
+      <h2 class="text-[clamp(28px,4.5vw,44px)] leading-[1.05] mb-4">
+        Questions,<br class="hidden md:block" /> answered.
+      </h2>
+      <p class="text-ink-soft text-[15px] max-w-[30ch]">
+        Everything about the offer. Everything about the accounts is on the main site.
+      </p>
+    </div>
+
+    <div class="reveal flex flex-col gap-3">
+      {faqs.map((item) => (
+        <details class="group glass rounded-2xl px-5 md:px-6 open:bg-white/[0.06] transition-colors" open={item.open}>
+          <summary class="list-none cursor-pointer py-5 flex justify-between items-center gap-6 font-display font-semibold text-[15.5px] md:text-[17px] transition-colors hover:text-accent">
+            {item.q}
+            <span class="flex-none w-7 h-7 rounded-full border border-border flex items-center justify-center font-mono text-accent text-lg leading-none transition-all duration-300 group-open:rotate-45 group-open:border-accent/60 group-open:bg-accent/10">
+              +
+            </span>
+          </summary>
+          <p class="text-ink-soft text-[14.5px] md:text-[15px] leading-relaxed pb-6 max-w-[62ch]">{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

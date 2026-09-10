@@ -15,9 +15,21 @@ create table if not exists public.site_settings (
   redirect_url text not null default 'https://xybitfunds.com',
   headline text not null default 'Get {discount}% off your Xybit funded account.',
   subheadline text not null default 'Copy the code below, then apply it at checkout on xybitfunds.com. Works on every account size.',
+  -- Program facts. Blank by default; each tile stays hidden on the page
+  -- until it's filled in, so no unverified number is ever published.
+  fact_capital text not null default '',
+  fact_split text not null default '',
+  fact_payout text not null default '',
+  fact_platform text not null default '',
   updated_at timestamptz not null default now(),
   constraint site_settings_single_row check (id = 1)
 );
+
+-- If the table already exists from an earlier run, add the new columns.
+alter table public.site_settings add column if not exists fact_capital text not null default '';
+alter table public.site_settings add column if not exists fact_split text not null default '';
+alter table public.site_settings add column if not exists fact_payout text not null default '';
+alter table public.site_settings add column if not exists fact_platform text not null default '';
 
 insert into public.site_settings (id)
 values (1)

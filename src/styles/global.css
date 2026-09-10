@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -13,9 +13,10 @@ html {
 }
 
 body {
-  background: #050505;
+  background: #060608;
   color: theme("colors.ink");
   font-family: theme("fontFamily.body");
+  -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
@@ -23,43 +24,121 @@ body {
   color: #0a0500;
 }
 
-/* Every section is a scroll/nav anchor target — keep it clear of the
-   sticky header instead of landing half-hidden underneath it. */
+/* Section anchors clear the floating header instead of hiding under it. */
 [id] {
-  scroll-margin-top: 5rem;
+  scroll-margin-top: 6rem;
 }
 
 h1, h2, h3 {
   font-family: theme("fontFamily.display");
   font-weight: 700;
   text-wrap: balance;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Film grain ---------- */
+/* A very low-opacity noise layer over the whole page. It's what stops large
+   flat black areas and wide gradients from banding, and it's most of the
+   difference between "cheap dark theme" and "printed matte black". */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- Glass surfaces ---------- */
+.glass {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* A hairline gradient edge — reads as a lit rim rather than a flat border. */
+.rim {
+  position: relative;
+}
+.rim::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(150deg, rgba(255, 106, 46, 0.5), rgba(124, 92, 255, 0.28) 45%, transparent 75%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ---------- Gradient display text ---------- */
+.grad-text {
+  background: linear-gradient(100deg, #ff8a4c 0%, #ff6a2e 40%, #7c5cff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Dot grid ---------- */
+.dot-grid {
+  background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+  background-size: 26px 26px;
 }
 
 /* ---------- Scroll reveal ---------- */
-/* Elements start visible (no JS = still readable) then are hidden by JS
-   right before the observer takes over, so there's never a flash of
-   invisible content if JS is slow or blocked. */
+/* Content is visible by default; JS only opts in to animating it, so a
+   failed script can never leave anything unreadable. */
 .reveal {
   opacity: 1;
   transform: none;
-  /* Entrance (opacity/transform) is slow and eased; interactive feedback
-     (border/shadow on hover or tap) rides the same declaration but fast —
-     kept in one rule so a hover utility class elsewhere can never silently
-     lose the cascade to this one. */
   transition:
-    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.3s ease,
     border-color 0.25s ease,
     box-shadow 0.25s ease;
 }
 .js-reveal-ready .reveal {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(20px);
 }
 .js-reveal-ready .reveal.in-view {
   opacity: 1;
   transform: none;
+}
+
+/* ---------- Ambient drift ---------- */
+.aurora {
+  animation: drift 20s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-7%, 5%, 0) scale(1.18); }
+}
+
+/* ---------- CTA pulse ---------- */
+.cta-glow { position: relative; }
+.cta-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  animation: pulse 2.8s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 106, 46, 0.5); }
+  70%  { box-shadow: 0 0 0 20px rgba(255, 106, 46, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 106, 46, 0); }
+}
+
+/* ---------- Bottom nav safe-area (iOS home indicator) ---------- */
+.pb-safe {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -69,90 +148,8 @@ h1, h2, h3 {
     transform: none !important;
     transition: none !important;
   }
-}
-
-/* ---------- Bottom nav safe-area (iOS home indicator) ---------- */
-.pb-safe {
-  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
-}
-
-/* ---------- Ambient hero glow ---------- */
-/* Slow, low-contrast drift. Ambient only — nothing readable depends on it. */
-.aurora {
-  animation: drift 18s ease-in-out infinite alternate;
-}
-@keyframes drift {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  to   { transform: translate3d(-6%, 4%, 0) scale(1.15); }
-}
-
-/* ---------- Stat ticker ---------- */
-/* Track holds the content twice; translating exactly -50% loops seamlessly. */
-.ticker-track {
-  display: flex;
-  width: max-content;
-  animation: ticker 38s linear infinite;
-}
-@keyframes ticker {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-50%, 0, 0); }
-}
-.ticker:hover .ticker-track {
-  animation-play-state: paused;
-}
-/* Fade the strip into the page edges instead of cutting hard. */
-.ticker-mask {
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-}
-
-/* ---------- Step path draw-in ---------- */
-.path-line {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.in-view .path-line,
-.path-line.in-view {
-  stroke-dashoffset: 0;
-}
-
-/* ---------- CTA pulse ---------- */
-.cta-glow {
-  position: relative;
-}
-.cta-glow::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow: 0 0 0 0 rgba(255, 106, 46, 0.55);
-  animation: pulse 2.8s ease-out infinite;
-  pointer-events: none;
-}
-@keyframes pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(255, 106, 46, 0.5); }
-  70%  { box-shadow: 0 0 0 18px rgba(255, 106, 46, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 106, 46, 0); }
-}
-
-/* ---------- Horizontal snap rail (mobile proof cards) ---------- */
-.snap-rail {
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.snap-rail::-webkit-scrollbar { display: none; }
-.snap-rail > * { scroll-snap-align: center; }
-
-@media (prefers-reduced-motion: reduce) {
   .aurora,
-  .ticker-track,
   .cta-glow::after {
     animation: none !important;
-  }
-  .path-line {
-    stroke-dashoffset: 0 !important;
-    transition: none !important;
   }
 }

@@ -77,6 +77,37 @@ import Layout from "../../layouts/Layout.astro";
           <p class="text-[12px] text-ink-faint mt-1.5">Every "Claim offer" button opens this. Point it as deep as you can — ideally straight at the account-purchase page.</p>
         </section>
 
+        <!-- Program facts -->
+        <section class="bg-surface border border-border rounded-2xl p-5">
+          <h2 class="font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-2">Program facts</h2>
+          <p class="text-[12.5px] text-ink-faint mb-4">
+            Optional. Each tile stays hidden on the page until you fill it in — so nothing gets
+            published that you haven't checked. Use your real figures from xybitfunds.com.
+          </p>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="fact_capital">Capital</label>
+              <input id="fact_capital" type="text" placeholder="Up to $200K"
+                class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-accent" />
+            </div>
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="fact_split">Profit split</label>
+              <input id="fact_split" type="text" placeholder="Up to 90%"
+                class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-accent" />
+            </div>
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="fact_payout">Payouts</label>
+              <input id="fact_payout" type="text" placeholder="5 business days"
+                class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-accent" />
+            </div>
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="fact_platform">Platforms</label>
+              <input id="fact_platform" type="text" placeholder="MT5 · cTrader"
+                class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-accent" />
+            </div>
+          </div>
+        </section>
+
         <!-- Copy -->
         <section class="bg-surface border border-border rounded-2xl p-5">
           <h2 class="font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-4">Page copy</h2>
@@ -117,6 +148,7 @@ import Layout from "../../layouts/Layout.astro";
     const ids: (keyof SiteSettings)[] = [
       "discount_percent", "coupon_code", "offer_end_date", "redirect_url",
       "headline", "subheadline",
+      "fact_capital", "fact_split", "fact_payout", "fact_platform",
     ];
 
     function fillForm(s: SiteSettings) {

@@ -1,0 +1,125 @@
+---
+import { DEFAULT_SETTINGS } from "../lib/settings";
+
+// Explains the funded-account model itself — how this category of program
+// works — so someone arriving cold from an ad understands what they're
+// buying. Deliberately no Xybit-specific figures here: the numbers live in
+// the admin-set facts row below, which stays hidden until it's filled in.
+const pillars = [
+  {
+    title: "Trade firm capital",
+    body: "You're not funding the account. Xybit allocates the capital; you trade it and keep an agreed share of what you make.",
+    icon: "vault",
+  },
+  {
+    title: "Prove it first",
+    body: "An evaluation comes first — hit a profit target while staying inside the risk rules. That's what unlocks a funded account.",
+    icon: "target",
+  },
+  {
+    title: "Your downside is the fee",
+    body: "The evaluation fee is what you put at risk, not a trading balance. Blow the drawdown limit and the account closes — your own capital isn't on the line.",
+    icon: "shield",
+  },
+  {
+    title: "Get paid on profits",
+    body: "Once funded, profits you make are split between you and the firm, and you request payouts on a set schedule.",
+    icon: "payout",
+  },
+];
+
+const icons: Record<string, string> = {
+  vault: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="12" cy="12" r="3.2"/><path d="M12 8.8V6M12 18v-2.8"/>',
+  target: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/>',
+  shield: '<path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.4-7.5 9.5-4.3-1.1-7.5-4.9-7.5-9.5V6L12 3Z"/>',
+  payout: '<path d="M3 17.5 9.5 11l4 4L21 7"/><path d="M15 7h6v6"/>',
+};
+---
+
+<section id="program" class="relative py-20 md:py-28 overflow-hidden">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+    <div class="aurora absolute top-[10%] left-[-15%] w-[460px] h-[460px] rounded-full bg-violet/12 blur-[150px]"></div>
+  </div>
+
+  <div class="max-w-[1280px] mx-auto px-5 sm:px-7">
+    <div class="reveal max-w-[720px] mb-14 md:mb-20">
+      <div class="font-mono text-[11.5px] tracking-[0.18em] uppercase text-accent mb-4">The program</div>
+      <h2 class="text-[clamp(28px,5.5vw,54px)] leading-[1.03] mb-5">
+        What a <span class="grad-text">funded account</span> actually is.
+      </h2>
+      <p class="text-ink-soft text-[16px] md:text-[18px] leading-relaxed max-w-[56ch]">
+        Xybit is a proprietary trading firm. Instead of trading your own savings, you pass an
+        evaluation and then trade the firm's simulated capital, keeping a share of the profit.
+        Here's the shape of it.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-4 md:gap-5">
+      {pillars.map((p, i) => (
+        <article
+          class="reveal glass rounded-2xl p-6 md:p-8 hover:-translate-y-1.5 transition-transform"
+          style={`transition-delay: ${i * 80}ms`}
+        >
+          <span class="inline-flex w-11 h-11 rounded-xl bg-accent/12 border border-accent/25 items-center justify-center text-accent mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={icons[p.icon]} />
+          </span>
+          <h3 class="text-[19px] md:text-[21px] mb-2.5">{p.title}</h3>
+          <p class="text-ink-soft text-[14.5px] md:text-[15px] leading-relaxed">{p.body}</p>
+        </article>
+      ))}
+    </div>
+
+    <!-- Facts row: hidden entirely until the admin fills these in, so the
+         page never publishes a number nobody verified. -->
+    <div id="facts-row" class="hidden mt-5 md:mt-6 glass rim rounded-2xl p-6 md:p-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div data-fact="capital" class="hidden">
+          <div class="font-display font-extrabold text-[clamp(22px,3vw,32px)] grad-text" data-fact-value></div>
+          <div class="text-[11.5px] text-ink-faint uppercase tracking-wider mt-1.5">Capital</div>
+        </div>
+        <div data-fact="split" class="hidden">
+          <div class="font-display font-extrabold text-[clamp(22px,3vw,32px)] grad-text" data-fact-value></div>
+          <div class="text-[11.5px] text-ink-faint uppercase tracking-wider mt-1.5">Profit split</div>
+        </div>
+        <div data-fact="payout" class="hidden">
+          <div class="font-display font-extrabold text-[clamp(22px,3vw,32px)] grad-text" data-fact-value></div>
+          <div class="text-[11.5px] text-ink-faint uppercase tracking-wider mt-1.5">Payouts</div>
+        </div>
+        <div data-fact="platform" class="hidden">
+          <div class="font-display font-extrabold text-[clamp(22px,3vw,32px)] grad-text" data-fact-value></div>
+          <div class="text-[11.5px] text-ink-faint uppercase tracking-wider mt-1.5">Platforms</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="reveal mt-8 text-[13.5px] text-ink-faint">
+      Full rules, account sizes and pricing live on
+      <a data-cta-redirect data-external="true" href={DEFAULT_SETTINGS.redirect_url} target="_blank" rel="noopener" class="text-accent hover:underline">xybitfunds.com</a>.
+    </p>
+  </div>
+</section>
+
+<script>
+  import { getSettings } from "../lib/settings-client";
+
+  getSettings().then((s) => {
+    const map: Record<string, string> = {
+      capital: s.fact_capital,
+      split: s.fact_split,
+      payout: s.fact_payout,
+      platform: s.fact_platform,
+    };
+
+    let anyShown = false;
+    for (const [key, value] of Object.entries(map)) {
+      if (!value) continue;
+      const tile = document.querySelector<HTMLElement>(`[data-fact="${key}"]`);
+      const valueEl = tile?.querySelector<HTMLElement>("[data-fact-value]");
+      if (!tile || !valueEl) continue;
+      valueEl.textContent = value;
+      tile.classList.remove("hidden");
+      anyShown = true;
+    }
+    if (anyShown) document.getElementById("facts-row")?.classList.remove("hidden");
+  });
+</script>

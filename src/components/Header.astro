@@ -1,17 +1,23 @@
 ---
 import Logo from "./Logo.astro";
 import { DEFAULT_SETTINGS } from "../lib/settings";
-
-// No section nav — there's nowhere to navigate on a one-job page. Just the
-// mark and the way out to the checkout.
 ---
 
-<nav class="sticky top-0 z-30 bg-[#050505]/85 backdrop-blur-md border-b border-border">
-  <div class="max-w-[1160px] mx-auto px-5 sm:px-7 h-16 flex items-center justify-between">
-    <a href="#top" class="flex items-center gap-2.5">
+<div class="fixed top-0 inset-x-0 z-40 px-4 pt-4 md:pt-5">
+  <nav
+    id="pill-nav"
+    class="glass rim mx-auto max-w-[860px] rounded-full px-3 py-2.5 md:px-4 md:py-3 flex items-center justify-between gap-3 transition-all duration-300 shadow-[0_16px_40px_-24px_rgba(0,0,0,.9)]"
+  >
+    <a href="#top" class="flex items-center gap-2.5 pl-1">
       <Logo size={30} />
-      <span class="font-display font-extrabold text-lg tracking-tight">XYBIT</span>
+      <span class="font-display font-extrabold text-[17px] tracking-tight">XYBIT</span>
     </a>
+
+    <div class="hidden sm:flex items-center gap-6 text-[13.5px] text-ink-soft">
+      <a href="#program" class="hover:text-ink transition-colors">Program</a>
+      <a href="#redeem" class="hover:text-ink transition-colors">Redeem</a>
+      <a href="#faq" class="hover:text-ink transition-colors">FAQ</a>
+    </div>
 
     <a
       data-cta-redirect
@@ -20,10 +26,26 @@ import { DEFAULT_SETTINGS } from "../lib/settings";
       href={DEFAULT_SETTINGS.redirect_url}
       target="_blank"
       rel="noopener"
-      class="inline-flex items-center gap-1.5 border border-border text-ink font-display font-bold text-[13.5px] px-4 py-2.5 rounded-lg hover:border-accent/60 hover:text-accent transition-colors"
+      class="inline-flex items-center gap-1.5 bg-accent text-[#0a0500] font-display font-bold text-[13px] md:text-[13.5px] px-4 py-2.5 rounded-full hover:bg-[#ff7f4a] transition-colors whitespace-nowrap"
     >
-      xybitfunds.com
-      <span aria-hidden="true">↗</span>
+      Claim offer
+      <span aria-hidden="true">→</span>
     </a>
-  </div>
-</nav>
+  </nav>
+</div>
+
+<script>
+  // Tighten the pill once the page starts moving — small motion, but it's
+  // what makes a floating header feel attached to the scroll.
+  const nav = document.getElementById("pill-nav");
+  if (nav) {
+    const onScroll = () => {
+      const scrolled = window.scrollY > 24;
+      nav.classList.toggle("max-w-[720px]", scrolled);
+      nav.classList.toggle("max-w-[860px]", !scrolled);
+      nav.classList.toggle("bg-[#0a0a0c]/80", scrolled);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+</script>
