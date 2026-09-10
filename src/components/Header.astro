@@ -1,39 +1,29 @@
 ---
 import Logo from "./Logo.astro";
+import { DEFAULT_SETTINGS } from "../lib/settings";
+
+// No section nav — there's nowhere to navigate on a one-job page. Just the
+// mark and the way out to the checkout.
 ---
 
 <nav class="sticky top-0 z-30 bg-[#050505]/85 backdrop-blur-md border-b border-border">
   <div class="max-w-[1160px] mx-auto px-5 sm:px-7 h-16 flex items-center justify-between">
-    <a href="/" class="flex items-center gap-2.5">
+    <a href="#top" class="flex items-center gap-2.5">
       <Logo size={30} />
       <span class="font-display font-extrabold text-lg tracking-tight">XYBIT</span>
     </a>
 
-    <div class="hidden md:flex items-center gap-7 text-sm text-ink-soft">
-      <a href="#accounts" class="hover:text-ink transition-colors">Accounts</a>
-      <a href="#payouts" class="hover:text-ink transition-colors">Payouts</a>
-      <a href="#how" class="hover:text-ink transition-colors">How it works</a>
-      <a href="#faq" class="hover:text-ink transition-colors">FAQ</a>
-    </div>
-
     <a
       data-cta-redirect
-      href="#accounts"
-      class="inline-flex items-center gap-1.5 bg-accent text-[#0a0500] font-display font-bold text-sm px-4 py-2.5 rounded-lg hover:bg-[#ff7f4a] hover:-translate-y-px transition-all"
+      data-external="true"
+      data-copy-on-click
+      href={DEFAULT_SETTINGS.redirect_url}
+      target="_blank"
+      rel="noopener"
+      class="inline-flex items-center gap-1.5 border border-border text-ink font-display font-bold text-[13.5px] px-4 py-2.5 rounded-lg hover:border-accent/60 hover:text-accent transition-colors"
     >
-      Get Funded <span aria-hidden="true">→</span>
+      xybitfunds.com
+      <span aria-hidden="true">↗</span>
     </a>
   </div>
 </nav>
-
-<script>
-  import { getSettings } from "../lib/settings-client";
-
-  getSettings().then((s) => {
-    document.querySelectorAll<HTMLAnchorElement>("[data-cta-redirect]").forEach((a) => {
-      // Anchor links (#accounts etc.) stay in-page; only swap ones meant to
-      // leave the site for the actual signup/checkout platform.
-      if (a.dataset.external === "true") a.href = s.redirect_url;
-    });
-  });
-</script>

@@ -1,61 +1,33 @@
 ---
-// Deliberately not a card grid — this is the one section that is a true
-// sequence, so it's drawn as a path with the steps sitting on it.
+// Redemption steps — how to use the coupon. Deliberately not the trading
+// evaluation process; that lives on the main site.
 const steps = [
-  {
-    n: "01",
-    title: "Pick your account",
-    body: "Choose a size, pay the one-time evaluation fee. Your discount applies automatically — no code to type.",
-  },
-  {
-    n: "02",
-    title: "Trade the evaluation",
-    body: "Hit the profit target, respect the drawdown limit. No time limit — two setups a day or two hundred, the rules don't change.",
-  },
-  {
-    n: "03",
-    title: "Get funded, get paid",
-    body: "Trade the funded account and request a payout on your schedule.",
-    dynamic: true,
-  },
+  { n: "01", title: "Copy the code", body: "One tap on the code above puts it on your clipboard." },
+  { n: "02", title: "Pick your account", body: "Head to xybitfunds.com and choose the account size you want." },
+  { n: "03", title: "Paste at checkout", body: "Drop the code into the discount field before you pay. The discount comes off the total." },
 ];
 ---
 
-<section id="how" class="relative py-20 md:py-28 border-t border-border overflow-hidden">
-  <div class="max-w-[1160px] mx-auto px-5 sm:px-7">
-    <div class="reveal max-w-[52ch] mb-14 md:mb-20">
-      <div class="font-mono text-[11.5px] tracking-widest uppercase text-ink-faint mb-3">How it works</div>
-      <h2 class="text-[30px] md:text-[40px] leading-[1.1]">
-        Three steps. <span class="text-ink-faint">That's the whole process.</span>
-      </h2>
+<section id="how" class="relative py-16 md:py-24 border-t border-border">
+  <div class="max-w-[900px] mx-auto px-5 sm:px-7">
+    <div class="reveal text-center mb-12">
+      <div class="font-mono text-[11.5px] tracking-widest uppercase text-ink-faint mb-3">How to redeem</div>
+      <h2 class="text-[26px] md:text-[34px] leading-[1.1]">Three taps and it's applied.</h2>
     </div>
 
     <div class="relative">
-      <!-- Connecting path: horizontal on desktop, vertical rail on mobile -->
-      <svg
-        class="hidden md:block absolute left-0 right-0 top-[26px] w-full h-[2px] -z-10"
-        viewBox="0 0 100 1"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <line class="path-line" x1="0" y1="0.5" x2="100" y2="0.5" stroke="#ff6a2e" stroke-opacity="0.45" stroke-width="1" pathLength="1"></line>
-      </svg>
-      <div class="md:hidden absolute left-[26px] top-8 bottom-8 w-px bg-gradient-to-b from-accent/50 via-accent/20 to-transparent -z-10" aria-hidden="true"></div>
+      <div class="hidden md:block absolute left-[8%] right-[8%] top-[26px] h-px bg-gradient-to-r from-transparent via-accent/35 to-transparent -z-10" aria-hidden="true"></div>
+      <div class="md:hidden absolute left-[26px] top-8 bottom-8 w-px bg-gradient-to-b from-accent/45 via-accent/20 to-transparent -z-10" aria-hidden="true"></div>
 
-      <ol class="grid md:grid-cols-3 gap-10 md:gap-8 list-none p-0 m-0">
+      <ol class="grid md:grid-cols-3 gap-9 md:gap-8 list-none p-0 m-0">
         {steps.map((s, i) => (
-          <li class="reveal flex md:block gap-5" style={`transition-delay: ${i * 110}ms`}>
-            <div class="flex-none w-[52px] h-[52px] rounded-full bg-[#0d0d0d] border border-accent/40 flex items-center justify-center font-mono font-bold text-accent text-[15px] shadow-[0_0_0_6px_#050505]">
+          <li class="reveal flex md:flex-col md:items-center md:text-center gap-5 md:gap-0" style={`transition-delay: ${i * 110}ms`}>
+            <div class="flex-none w-[52px] h-[52px] rounded-full bg-[#0d0d0d] border border-accent/40 flex items-center justify-center font-mono font-bold text-accent text-[15px] shadow-[0_0_0_8px_#050505]">
               {s.n}
             </div>
-            <div class="md:mt-7">
-              <h3 class="text-[20px] mb-2.5">{s.title}</h3>
-              <p
-                class="text-ink-soft text-[15px] leading-relaxed max-w-[36ch]"
-                id={s.dynamic ? "how-step-3" : undefined}
-              >
-                {s.body}
-              </p>
+            <div class="md:mt-6">
+              <h3 class="text-[18px] mb-2">{s.title}</h3>
+              <p class="text-ink-soft text-[14.5px] leading-relaxed max-w-[32ch] md:mx-auto">{s.body}</p>
             </div>
           </li>
         ))}
@@ -63,32 +35,3 @@ const steps = [
     </div>
   </div>
 </section>
-
-<script>
-  import { getSettings } from "../lib/settings-client";
-
-  // Draw the connecting line in once the section is reached.
-  const line = document.querySelector(".path-line");
-  if (line) {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            e.target.classList.add("in-view");
-            io.unobserve(e.target);
-          }
-        }
-      },
-      { threshold: 0.2 },
-    );
-    io.observe(line);
-    // Same safety net as the reveal animation — never leave it undrawn.
-    setTimeout(() => line.classList.add("in-view"), 2500);
-  }
-
-  getSettings().then((s) => {
-    if (!s.avg_payout_days) return;
-    const el = document.getElementById("how-step-3");
-    if (el) el.textContent = `Trade the funded account and request a payout on your schedule. Average turnaround: ${s.avg_payout_days}.`;
-  });
-</script>

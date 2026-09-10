@@ -1,0 +1,86 @@
+---
+import { DEFAULT_SETTINGS } from "../lib/settings";
+
+interface Props {
+  size?: "lg" | "sm";
+}
+const { size = "lg" } = Astro.props;
+const large = size === "lg";
+---
+
+<button
+  type="button"
+  data-copy-code
+  class:list={[
+    "group relative w-full flex items-center justify-between gap-4 rounded-xl border-2 border-dashed border-accent/50 bg-accent/[0.07] hover:bg-accent/[0.12] hover:border-accent/80 transition-colors text-left",
+    large ? "px-5 py-4 md:px-6 md:py-5" : "px-4 py-3",
+  ]}
+  aria-label="Copy coupon code"
+>
+  <span class="min-w-0">
+    <span class:list={["block font-mono text-ink-faint uppercase tracking-widest", large ? "text-[10.5px] mb-1.5" : "text-[9.5px] mb-1"]}>
+      Coupon code
+    </span>
+    <span
+      data-code-text
+      class:list={[
+        "block font-mono font-bold text-accent tracking-[0.12em] truncate",
+        large ? "text-[26px] md:text-[32px]" : "text-[17px]",
+      ]}
+    >
+      {DEFAULT_SETTINGS.coupon_code}
+    </span>
+  </span>
+
+  <span
+    class:list={[
+      "flex-none inline-flex items-center gap-1.5 rounded-lg bg-accent text-[#0a0500] font-display font-bold transition-transform group-active:scale-95",
+      large ? "px-4 py-2.5 text-[13.5px]" : "px-3 py-2 text-[12.5px]",
+    ]}
+  >
+    <svg data-copy-icon width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="12" height="12" rx="2"/>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+    </svg>
+    <span data-copy-label>Copy</span>
+  </span>
+</button>
+
+<script>
+  import { getSettings } from "../lib/settings-client";
+  import { copyText } from "../lib/clipboard";
+
+  const COPIED_ICON = '<path d="m20 6-11 11-5-5"/>';
+  const DEFAULT_ICON =
+    '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>';
+
+  // One shared code value across every instance (hero, final CTA, sticky bar).
+  let code = document.querySelector<HTMLElement>("[data-code-text]")?.textContent?.trim() ?? "";
+
+  getSettings().then((s) => {
+    if (!s.coupon_code) return;
+    code = s.coupon_code;
+    document.querySelectorAll<HTMLElement>("[data-code-text]").forEach((el) => {
+      el.textContent = s.coupon_code;
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>("[data-copy-code]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const ok = await copyText(code);
+      const label = btn.querySelector<HTMLElement>("[data-copy-label]");
+      const icon = btn.querySelector<SVGElement>("[data-copy-icon]");
+      if (!label || !icon) return;
+
+      // If the copy genuinely failed, say so rather than claiming success —
+      // the visitor still needs the code and can select it manually.
+      label.textContent = ok ? "Copied" : "Select it";
+      icon.innerHTML = ok ? COPIED_ICON : DEFAULT_ICON;
+
+      window.setTimeout(() => {
+        label.textContent = "Copy";
+        icon.innerHTML = DEFAULT_ICON;
+      }, 2000);
+    });
+  });
+</script>

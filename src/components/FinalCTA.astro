@@ -1,36 +1,36 @@
 ---
 import { DEFAULT_SETTINGS } from "../lib/settings";
+import CouponCode from "./CouponCode.astro";
 ---
 
-<section class="relative py-20 md:py-28 border-t border-border overflow-hidden">
+<section class="relative py-16 md:py-24 border-t border-border overflow-hidden">
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
-    <div class="absolute inset-x-0 bottom-[-40%] h-[520px] bg-[radial-gradient(ellipse_at_bottom,rgba(255,106,46,.22),transparent_65%)]"></div>
+    <div class="absolute inset-x-0 bottom-[-45%] h-[480px] bg-[radial-gradient(ellipse_at_bottom,rgba(255,106,46,.2),transparent_65%)]"></div>
   </div>
 
-  <div class="max-w-[1160px] mx-auto px-5 sm:px-7 text-center">
-    <div class="reveal font-mono text-[11.5px] tracking-widest uppercase text-accent mb-4">Launch offer</div>
-
-    <h2 class="reveal text-[clamp(30px,6vw,52px)] leading-[1.05] tracking-[-0.02em] mb-5 max-w-[18ch] mx-auto">
-      Get funded before the offer ends.
+  <div class="max-w-[560px] mx-auto px-5 sm:px-7 text-center">
+    <h2 id="final-headline" class="reveal text-[clamp(26px,5.5vw,40px)] leading-[1.08] tracking-[-0.02em] mb-4">
+      Don't pay full price.
     </h2>
-
-    <p id="final-cta-sub" class="reveal text-ink-soft text-[16px] max-w-[46ch] mx-auto mb-9">
-      {DEFAULT_SETTINGS.discount_percent}% off every account size. Code applied automatically at checkout.
+    <p id="final-sub" class="reveal text-ink-soft text-[15.5px] mb-8 max-w-[38ch] mx-auto">
+      Grab the code and apply it at checkout — it takes about ten seconds.
     </p>
 
-    <div class="reveal flex flex-col items-center gap-4">
+    <div class="reveal">
+      <CouponCode />
       <a
         data-cta-redirect
         data-external="true"
-        href="#accounts"
-        class="cta-glow group inline-flex items-center gap-2 bg-accent text-[#0a0500] font-display font-bold text-[16px] px-8 py-[18px] rounded-xl hover:bg-[#ff7f4a] hover:-translate-y-0.5 transition-all"
+        data-copy-on-click
+        href={DEFAULT_SETTINGS.redirect_url}
+        target="_blank"
+        rel="noopener"
+        class="group mt-3.5 w-full inline-flex items-center justify-center gap-2 bg-accent text-[#0a0500] font-display font-bold text-[16px] px-6 py-4 rounded-xl hover:bg-[#ff7f4a] hover:-translate-y-0.5 transition-all"
       >
-        <span id="final-cta-label">Claim {DEFAULT_SETTINGS.discount_percent}% Off</span>
+        Claim offer on xybitfunds.com
         <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
       </a>
-      <span id="final-cta-note" class="font-mono text-[12px] text-ink-faint">
-        Code {DEFAULT_SETTINGS.coupon_code}
-      </span>
+      <p id="final-expiry" class="mt-4 font-mono text-[12px] text-ink-faint"></p>
     </div>
   </div>
 </section>
@@ -39,17 +39,10 @@ import { DEFAULT_SETTINGS } from "../lib/settings";
   import { getSettings } from "../lib/settings-client";
 
   getSettings().then((s) => {
-    const sub = document.getElementById("final-cta-sub");
-    if (sub) sub.textContent = `${s.discount_percent}% off every account size. Code applied automatically at checkout.`;
+    const sub = document.getElementById("final-sub");
+    if (sub) sub.textContent = `Grab the code and apply it at checkout — ${s.discount_percent}% comes straight off the total.`;
 
-    const label = document.getElementById("final-cta-label");
-    if (label) label.textContent = `Claim ${s.discount_percent}% Off`;
-
-    const note = document.getElementById("final-cta-note");
-    if (note) note.textContent = s.offer_end_date ? `Code ${s.coupon_code} · Ends ${s.offer_end_date}` : `Code ${s.coupon_code}`;
-
-    document.querySelectorAll<HTMLAnchorElement>("[data-cta-redirect][data-external='true']").forEach((a) => {
-      a.href = s.redirect_url;
-    });
+    const expiry = document.getElementById("final-expiry");
+    if (expiry && s.offer_end_date) expiry.textContent = `Offer ends ${s.offer_end_date}`;
   });
 </script>

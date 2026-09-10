@@ -12,26 +12,15 @@ import Layout from "../../layouts/Layout.astro";
           <span class="font-mono text-[11px] text-ink-faint border border-border rounded px-1.5 py-0.5">admin</span>
         </div>
         <div class="flex items-center gap-4">
-          <a href="/" target="_blank" class="text-[13px] text-ink-soft hover:text-ink">View site ↗</a>
+          <a href="/" target="_blank" class="text-[13px] text-ink-soft hover:text-ink">View page ↗</a>
           <button id="logout-btn" class="text-[13px] text-ink-faint hover:text-ink">Log out</button>
         </div>
       </div>
     </nav>
 
     <main id="dash-main" class="max-w-[820px] mx-auto px-5 pt-10 hidden">
-      <h1 class="text-2xl font-display font-bold mb-1">Site settings</h1>
-      <p class="text-ink-soft text-sm mb-6">Changes apply instantly on the live site — no redeploy needed.</p>
-
-      <div class="mb-8 flex gap-3 rounded-xl border border-[#e08165]/40 bg-[#e08165]/10 p-4">
-        <span class="flex-none w-6 h-6 rounded-md border border-[#e08165] text-[#e08165] font-mono text-xs flex items-center justify-center">!</span>
-        <p class="text-[13.5px] text-ink-soft">
-          <strong class="text-ink">The site ships with sample figures.</strong> The payout totals, funded-account
-          counts and the three payout testimonials on the homepage are placeholder content from the template.
-          Replace them with real, verifiable numbers below (and real testimonials in
-          <code class="text-ink-faint">src/components/Proof.astro</code>) before running paid traffic — published
-          payout claims have to be true.
-        </p>
-      </div>
+      <h1 class="text-2xl font-display font-bold mb-1">Offer settings</h1>
+      <p class="text-ink-soft text-sm mb-8">Changes apply instantly on the live page — no redeploy needed.</p>
 
       <form id="settings-form" class="flex flex-col gap-8">
         <!-- Branding -->
@@ -46,15 +35,15 @@ import Layout from "../../layouts/Layout.astro";
                 Upload logo
                 <input id="logo-input" type="file" accept="image/png,image/svg+xml,image/jpeg,image/webp" class="hidden" />
               </label>
-              <p class="text-[12px] text-ink-faint mt-2">Square PNG or SVG works best. Appears in the header, mobile nav, browser tab and footer automatically.</p>
+              <p class="text-[12px] text-ink-faint mt-2">Square PNG or SVG. Appears in the header, footer and browser tab automatically.</p>
               <p id="logo-status" class="text-[12px] mt-1"></p>
             </div>
           </div>
         </section>
 
-        <!-- Offer -->
+        <!-- The offer -->
         <section class="bg-surface border border-border rounded-2xl p-5">
-          <h2 class="font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-4">Offer</h2>
+          <h2 class="font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-4">The offer</h2>
           <div class="grid sm:grid-cols-2 gap-4">
             <div>
               <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="discount_percent">Discount %</label>
@@ -63,72 +52,45 @@ import Layout from "../../layouts/Layout.astro";
                   class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-2xl font-display font-bold text-accent focus:outline-none focus:border-accent" />
                 <span class="absolute right-4 top-1/2 -translate-y-1/2 text-ink-faint font-mono">%</span>
               </div>
-              <p class="text-[12px] text-ink-faint mt-1.5">Shown big in the hero, account cards and final CTA.</p>
             </div>
             <div>
               <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="coupon_code">Coupon code</label>
               <input id="coupon_code" type="text" required
                 class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-lg font-mono font-bold tracking-wide uppercase focus:outline-none focus:border-accent" />
+              <p class="text-[12px] text-ink-faint mt-1.5">This is what visitors copy. Make sure it's live at checkout first.</p>
             </div>
           </div>
           <div class="mt-4">
             <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="offer_end_date">Offer ends</label>
             <input id="offer_end_date" type="date"
               class="w-full sm:w-auto bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-accent" />
-            <p class="text-[12px] text-ink-faint mt-1.5">Leave blank to hide the "offer ends" line entirely.</p>
+            <p class="text-[12px] text-ink-faint mt-1.5">Leave blank to hide the expiry line. Only set a date you'll actually honour.</p>
           </div>
         </section>
 
         <!-- Redirect -->
         <section class="bg-surface border border-border rounded-2xl p-5">
-          <h2 class="font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-4">Signup redirect</h2>
-          <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="redirect_url">Where "Get Funded" buttons send visitors</label>
-          <input id="redirect_url" type="url" required placeholder="https://platform.xybitfunds.com/checkout"
+          <h2 class="font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-4">Where the buttons go</h2>
+          <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="redirect_url">Checkout URL</label>
+          <input id="redirect_url" type="url" required placeholder="https://xybitfunds.com/checkout"
             class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-accent" />
-          <p class="text-[12px] text-ink-faint mt-1.5">Your account-purchase / trader platform URL. This page is marketing-only and doesn't process payment itself.</p>
+          <p class="text-[12px] text-ink-faint mt-1.5">Every "Claim offer" button opens this. Point it as deep as you can — ideally straight at the account-purchase page.</p>
         </section>
 
         <!-- Copy -->
         <section class="bg-surface border border-border rounded-2xl p-5">
-          <h2 class="font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-4">Homepage copy</h2>
+          <h2 class="font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-4">Page copy</h2>
           <div class="flex flex-col gap-4">
             <div>
-              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="headline">Hero headline</label>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="headline">Headline</label>
               <input id="headline" type="text"
                 class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-accent" />
-              <p class="text-[12px] text-ink-faint mt-1.5">Use <code class="text-ink-soft">{"{discount}"}</code> where the number should go — it's replaced automatically.</p>
+              <p class="text-[12px] text-ink-faint mt-1.5">Use <code class="text-ink-soft">{"{discount}"}</code> where the number goes — it's filled in automatically.</p>
             </div>
             <div>
-              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="subheadline">Hero subheadline</label>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="subheadline">Subheadline</label>
               <textarea id="subheadline" rows="2"
                 class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-accent"></textarea>
-            </div>
-          </div>
-        </section>
-
-        <!-- Trust stats -->
-        <section class="bg-surface border border-border rounded-2xl p-5">
-          <h2 class="font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-4">Trust bar stats</h2>
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="paid_out_total">Paid to traders</label>
-              <input id="paid_out_total" type="text" placeholder="$2.1M+"
-                class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm font-mono focus:outline-none focus:border-accent" />
-            </div>
-            <div>
-              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="funded_accounts">Funded accounts</label>
-              <input id="funded_accounts" type="text" placeholder="6,400+"
-                class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm font-mono focus:outline-none focus:border-accent" />
-            </div>
-            <div>
-              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="avg_payout_days">Avg. payout time</label>
-              <input id="avg_payout_days" type="text" placeholder="5 days"
-                class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm font-mono focus:outline-none focus:border-accent" />
-            </div>
-            <div>
-              <label class="block font-mono text-[11px] uppercase tracking-wide text-ink-faint mb-1.5" for="max_profit_split">Max profit split</label>
-              <input id="max_profit_split" type="text" placeholder="90%"
-                class="w-full bg-surface-2 border border-border rounded-lg px-3.5 py-2.5 text-sm font-mono focus:outline-none focus:border-accent" />
             </div>
           </div>
         </section>
@@ -154,23 +116,18 @@ import Layout from "../../layouts/Layout.astro";
 
     const ids: (keyof SiteSettings)[] = [
       "discount_percent", "coupon_code", "offer_end_date", "redirect_url",
-      "headline", "subheadline", "paid_out_total", "funded_accounts",
-      "avg_payout_days", "max_profit_split",
+      "headline", "subheadline",
     ];
-
-    let currentLogoUrl: string | null = null;
 
     function fillForm(s: SiteSettings) {
       for (const id of ids) {
         const el = document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | null;
         if (el) el.value = String(s[id] ?? "");
       }
-      currentLogoUrl = s.logo_url;
-      const preview = document.getElementById("logo-preview") as HTMLElement;
-      const dashLogo = document.getElementById("dash-logo") as HTMLElement;
       if (s.logo_url) {
-        preview.innerHTML = `<img src="${s.logo_url}" class="w-full h-full object-cover" alt="" />`;
-        dashLogo.innerHTML = `<img src="${s.logo_url}" class="w-full h-full object-cover" alt="" />`;
+        const img = `<img src="${s.logo_url}" class="w-full h-full object-cover" alt="" />`;
+        document.getElementById("logo-preview")!.innerHTML = img;
+        document.getElementById("dash-logo")!.innerHTML = img;
       }
     }
 
@@ -187,9 +144,7 @@ import Layout from "../../layouts/Layout.astro";
         return;
       }
 
-      const settings = await fetchSettings();
-      fillForm(settings);
-
+      fillForm(await fetchSettings());
       document.getElementById("dash-loading")!.classList.add("hidden");
       document.getElementById("dash-main")!.classList.remove("hidden");
       document.getElementById("save-bar")!.classList.remove("hidden");
@@ -218,17 +173,15 @@ import Layout from "../../layouts/Layout.astro";
         return;
       }
       const { data: pub } = supabase.storage.from("branding").getPublicUrl(path);
-      currentLogoUrl = pub.publicUrl;
-
-      const { error } = await saveSettings({ logo_url: currentLogoUrl });
+      const { error } = await saveSettings({ logo_url: pub.publicUrl });
       if (error) {
         status.textContent = error;
         status.className = "text-[12px] mt-1 text-[#e08165]";
         return;
       }
 
-      const preview = document.getElementById("logo-preview")!;
-      preview.innerHTML = `<img src="${currentLogoUrl}" class="w-full h-full object-cover" alt="" />`;
+      document.getElementById("logo-preview")!.innerHTML =
+        `<img src="${pub.publicUrl}" class="w-full h-full object-cover" alt="" />`;
       status.textContent = "Logo updated — live everywhere now.";
       status.className = "text-[12px] mt-1 text-accent";
     });

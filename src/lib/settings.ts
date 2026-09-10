@@ -1,35 +1,28 @@
 import { supabase, SUPABASE_CONFIGURED } from "./supabase";
 
+// This page has one job: show the offer, hand over the coupon code, and
+// send the visitor to the checkout to redeem it. Everything editable here
+// serves that — there is deliberately nothing about pricing tiers, payout
+// figures or trading rules, which live on the main site.
 export interface SiteSettings {
   logo_url: string | null;
   discount_percent: number;
   coupon_code: string;
-  offer_end_date: string; // ISO date, shown as-is (e.g. "2026-10-31")
-  redirect_url: string; // where every "Get Funded" CTA sends traffic
-  headline: string;
+  offer_end_date: string; // ISO date; blank hides the expiry line entirely
+  redirect_url: string; // the checkout page the CTA sends people to
+  headline: string; // "{discount}" is replaced with the number
   subheadline: string;
-  paid_out_total: string; // e.g. "$2.1M+"
-  funded_accounts: string; // e.g. "6,400+"
-  avg_payout_days: string; // e.g. "5 days"
-  max_profit_split: string; // e.g. "90%"
 }
 
-// Shown until the real row loads, and used as-is if Supabase isn't
-// configured yet. Keep these truthful placeholders, not invented numbers —
-// swap every one of them for real figures in the admin dashboard.
 export const DEFAULT_SETTINGS: SiteSettings = {
   logo_url: null,
-  discount_percent: 40,
-  coupon_code: "XYBIT40",
+  discount_percent: 20,
+  coupon_code: "XYBIT20",
   offer_end_date: "",
   redirect_url: "https://xybitfunds.com",
-  headline: "{discount}% Off Every Funded Account.",
+  headline: "Get {discount}% off your Xybit funded account.",
   subheadline:
-    "Two trades a day. Real capital, up to $200K. No hype — just the evaluation, the rules, and the payout.",
-  paid_out_total: "",
-  funded_accounts: "",
-  avg_payout_days: "",
-  max_profit_split: "",
+    "Copy the code below, then apply it at checkout on xybitfunds.com. Works on every account size.",
 };
 
 const TABLE = "site_settings";
@@ -38,9 +31,8 @@ const ROW_ID = 1;
 export async function fetchSettings(): Promise<SiteSettings> {
   if (!SUPABASE_CONFIGURED) return DEFAULT_SETTINGS;
   // Never let a network failure, a slow response, or a thrown error hang
-  // this promise — every caller treats it as "always resolves quickly" so
-  // the page can show real default copy immediately instead of sitting on
-  // a loading state (or worse, staying stuck) if Supabase is unreachable.
+  // this promise — callers treat it as "always resolves quickly" so the
+  // page can show its real default copy immediately rather than waiting.
   const timeout = new Promise<SiteSettings>((resolve) =>
     setTimeout(() => resolve(DEFAULT_SETTINGS), 4000),
   );
@@ -66,10 +58,7 @@ export async function saveSettings(
   if (!SUPABASE_CONFIGURED) {
     return { error: "Supabase isn't connected yet — add your project keys first." };
   }
-  const { error } = await supabase
-    .from(TABLE)
-    .update(partial)
-    .eq("id", ROW_ID);
+  const { error } = await supabase.from(TABLE).update(partial).eq("id", ROW_ID);
   return { error: error?.message ?? null };
 }
 
